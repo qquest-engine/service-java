@@ -4,6 +4,8 @@ server:
     context-path: /quest-engine
 
 spring:
+  profiles:
+    active: test
   datasource:
     url: jdbc:postgresql://localhost:5432/quest_engine
     username: postgres
