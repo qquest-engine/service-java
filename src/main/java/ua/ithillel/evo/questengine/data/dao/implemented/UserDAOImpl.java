@@ -42,4 +42,10 @@ public class UserDAOImpl implements UserDAO {
     public void delete(User user) {
         this.userRepository.delete(user);
     }
+
+    @Override
+    public User findById(Long id) {
+        return this.userRepository.findById(id).orElseThrow(()
+                -> new NotFoundException(String.format("Can find user with id '%id'", id)));
+    }
 }

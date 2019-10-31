@@ -35,6 +35,9 @@ public class Quest {
     @Enumerated(EnumType.STRING)
     private Type type;
 
+    @Column(name = "difficulty")
+    private Integer difficulty;
+
     @Column(name = "general")
     private Boolean general;
 
