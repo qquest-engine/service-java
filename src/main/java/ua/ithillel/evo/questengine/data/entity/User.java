@@ -5,7 +5,9 @@ import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @AllArgsConstructor
@@ -37,6 +39,9 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonIgnore
-    private Set<Quest> quests = new HashSet<>();
+    private List<Quest> quests = new ArrayList<>();
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JsonIgnore
+    private List<Game> games = new ArrayList<>();
 }

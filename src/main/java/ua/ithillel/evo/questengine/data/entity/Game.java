@@ -6,7 +6,6 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @AllArgsConstructor
@@ -17,8 +16,8 @@ import java.util.List;
 @ToString
 @Builder
 @Entity
-@Table(name = "hint")
-public class Hint {
+@Table(name = "game")
+public class Game {
 
     @Id
     @GeneratedValue(generator = "increment")
@@ -26,23 +25,12 @@ public class Hint {
     @Setter(AccessLevel.NONE)
     private Long id;
 
-    @Column(name = "hint_text")
-    private String hintText;
-
-    @Column(name = "previous_hint_id")
-    private Long previousHintId;
-
-    @Column(name = "duration")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date duration;
-
     @ManyToOne(optional = false)
-    @JoinColumn(name = "question_id")
+    @JoinColumn(name = "user_id")
     @JsonIgnore
-    private Question question;
+    private User user;
 
-    @OneToMany(mappedBy = "hint", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "game", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonIgnore
     private List<Progress> progresses = new ArrayList<>();
-
 }

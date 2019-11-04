@@ -17,8 +17,8 @@ import java.util.List;
 @ToString
 @Builder
 @Entity
-@Table(name = "hint")
-public class Hint {
+@Table(name = "progress")
+public class Progress {
 
     @Id
     @GeneratedValue(generator = "increment")
@@ -26,23 +26,24 @@ public class Hint {
     @Setter(AccessLevel.NONE)
     private Long id;
 
-    @Column(name = "hint_text")
-    private String hintText;
-
-    @Column(name = "previous_hint_id")
-    private Long previousHintId;
-
-    @Column(name = "duration")
+    @Column(name = "start_time")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date duration;
+    private Date startTime;
+
+    @Column(name = "end_time")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date endTime;
+
+    @Column(name = "successful")
+    private Boolean successful;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "question_id")
+    @JoinColumn(name = "game_id")
     @JsonIgnore
-    private Question question;
+    private Game game;
 
-    @OneToMany(mappedBy = "hint", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "hint_id")
     @JsonIgnore
-    private List<Progress> progresses = new ArrayList<>();
-
+    private Hint hint;
 }

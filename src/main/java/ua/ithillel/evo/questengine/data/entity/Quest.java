@@ -35,15 +35,18 @@ public class Quest {
     @Enumerated(EnumType.STRING)
     private Type type;
 
-    @Column(name = "general")
-    private Boolean general;
+    @Column(name = "difficulty")
+    private Integer difficulty;
 
-    @OneToMany(mappedBy = "quest", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @Column(name = "is_public")
+    private Boolean isPublic;
+
+    @OneToMany(mappedBy = "quest", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonIgnore
-    private List<Stage> stages = new ArrayList<>();
+    private List<Question> questions = new ArrayList<>();
 
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
-    @JoinColumn(name = "app_user_id")
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "user_id")
     @JsonIgnore
     private User user;
 }
