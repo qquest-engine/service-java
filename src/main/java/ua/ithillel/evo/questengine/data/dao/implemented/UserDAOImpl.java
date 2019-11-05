@@ -22,7 +22,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public Optional<User> getUserByEmailAndAndPassword(String email, String password) {
+    public User getUserByEmailAndAndPassword(String email, String password) {
         return this.userRepository.findUserByEmailAndAndPassword(email, password);
     }
 
@@ -31,6 +31,11 @@ public class UserDAOImpl implements UserDAO {
         List<User> users = new ArrayList<>();
         this.userRepository.findAll().forEach(users::add);
         return users;
+    }
+
+    @Override
+    public User getUserById(Long id) {
+        return this.userRepository.findUserById(id);
     }
 
     @Override

@@ -8,7 +8,9 @@ import java.util.Optional;
 
 public interface UserService {
 
-    Optional<User> getUserByEmailAndAndPassword(String email, String password);
+    User getUserByEmailAndAndPassword(String email, String password);
+
+    User getUserById(Long id);
 
     List<User> getAll();
 

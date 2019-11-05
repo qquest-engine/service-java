@@ -24,8 +24,8 @@ public class UserController {
 
     @GetMapping(value = "/all", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<User>> getAll() {
-        List<User> users = new ArrayList<>();
-        userService.getAll().forEach(user -> users.add(user));
+        List<User> users = new ArrayList<>(userService.getAll());
+//        userService.getAll().forEach(user -> users.add(user));
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
