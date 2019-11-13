@@ -37,6 +37,9 @@ dependencies {
     testCompile 'org.junit.platform:junit-platform-launcher:1.5.2'
     testCompile 'org.mockito:mockito-core:3.1.0'
 }
+//Maybe we can replace 2 lines of junit dependency above with 1 that below ?
+//// https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter
+//testCompile 'org.junit.jupiter:junit-jupiter:5.5.2'
 
 test {
     useJUnitPlatform()

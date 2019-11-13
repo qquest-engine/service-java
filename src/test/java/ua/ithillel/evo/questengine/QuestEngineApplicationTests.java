@@ -3,10 +3,8 @@ package ua.ithillel.evo.questengine;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import ua.ithillel.evo.questengine.data.dao.implemented.UserDAOImpl;
 import ua.ithillel.evo.questengine.data.entity.Role;
 import ua.ithillel.evo.questengine.data.entity.User;
-import ua.ithillel.evo.questengine.service.UserService;
 import ua.ithillel.evo.questengine.service.implemented.UserServiceImpl;
 
 import java.util.Optional;

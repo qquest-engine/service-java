@@ -40,6 +40,7 @@ public class Quest {
     private Boolean isPublic;
 
     @OneToMany(mappedBy = "quest", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @Builder.Default
     @JsonIgnore
     private List<Question> questions = new ArrayList<>();
 
