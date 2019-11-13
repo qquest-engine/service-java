@@ -11,10 +11,8 @@ import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
 @EqualsAndHashCode(of = "id")
-@ToString
+@Data
 @Builder
 @Entity
 @Table(name = "hint")
