@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 import ua.ithillel.evo.questengine.data.dao.UserDAO;
 import ua.ithillel.evo.questengine.data.entity.User;
 import ua.ithillel.evo.questengine.data.repository.UserRepository;
-import ua.ithillel.evo.questengine.exception.NotFoundException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,9 +27,7 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public List<User> getAll() {
-        List<User> users = new ArrayList<>();
-        this.userRepository.findAll().forEach(users::add);
-        return users;
+        return (List<User>) this.userRepository.findAll();
     }
 
     @Override

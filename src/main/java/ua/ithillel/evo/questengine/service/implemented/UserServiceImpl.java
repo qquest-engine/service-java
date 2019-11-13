@@ -2,6 +2,7 @@ package ua.ithillel.evo.questengine.service.implemented;
 
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ua.ithillel.evo.questengine.data.dao.UserDAO;
 import ua.ithillel.evo.questengine.data.entity.User;
 import ua.ithillel.evo.questengine.service.UserService;
@@ -10,6 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class UserServiceImpl implements UserService {
 
     private final UserDAO userDAO;

@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import ua.ithillel.evo.questengine.data.entity.Role;
 import ua.ithillel.evo.questengine.data.entity.User;
+import ua.ithillel.evo.questengine.service.UserService;
 import ua.ithillel.evo.questengine.service.implemented.UserServiceImpl;
 
 import java.util.Optional;
@@ -17,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 class QuestEngineApplicationTests {
 
     @Autowired
-    UserServiceImpl userService;
+    UserService userService;
 
     private final User USER_ACTUAL = User.builder()
             .email("user@questengine.com")
@@ -36,7 +37,6 @@ class QuestEngineApplicationTests {
             assertEquals(user.getPassword(), USER_ACTUAL.getPassword());
             assertEquals(user.getRole(), USER_ACTUAL.getRole());
             assertNotNull(user.getId());
-
         });
     }
 }
