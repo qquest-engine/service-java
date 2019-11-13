@@ -25,7 +25,7 @@ public class GameController {
     @PostMapping(value = "/user/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> create(@PathVariable Long id, @RequestBody Game game) {
 //        GameValidator.validate(game);
-        gameService.createGameForUser(id, game);//note currently there is no way to obtain user by id
+        gameService.createGameForUser(id, game);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
