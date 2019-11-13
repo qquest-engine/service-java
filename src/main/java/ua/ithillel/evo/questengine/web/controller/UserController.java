@@ -34,6 +34,10 @@ public class UserController {
 
     //    placeholder for @PutMapping
 
-    //    placeholder for @DeleteMapping
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
+        userService.deleteById(id);
+        return new ResponseEntity(HttpStatus.OK);
+    }
 
 }

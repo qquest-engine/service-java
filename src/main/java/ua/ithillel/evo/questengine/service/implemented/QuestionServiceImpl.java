@@ -3,6 +3,7 @@ package ua.ithillel.evo.questengine.service.implemented;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ua.ithillel.evo.questengine.data.dao.QuestDAO;
 import ua.ithillel.evo.questengine.data.dao.QuestionDAO;
 import ua.ithillel.evo.questengine.data.entity.Quest;
 import ua.ithillel.evo.questengine.data.entity.Question;
@@ -23,7 +24,6 @@ public class QuestionServiceImpl implements QuestionService {
         this.questionDAO = questionDAO;
         this.questDAO = questDAO;
     }
-
 
     @Override
     public Optional<Question> getById(Long id) {

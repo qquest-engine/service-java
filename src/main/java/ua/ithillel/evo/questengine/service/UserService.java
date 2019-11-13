@@ -8,11 +8,13 @@ import java.util.Optional;
 
 public interface UserService {
 
-    Optional<User> getUserByEmailAndAndPassword(String email, String password);
+    Optional<User> getByEmailAndAndPassword(String email, String password);
+
+    Optional<User> getById(Long id);
 
     List<User> getAll();
 
     void save(User user);
 
-    void delete(User user);
+    void deleteById(Long id);
 }

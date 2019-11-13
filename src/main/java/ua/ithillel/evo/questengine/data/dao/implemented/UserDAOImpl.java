@@ -6,7 +6,6 @@ import ua.ithillel.evo.questengine.data.dao.UserDAO;
 import ua.ithillel.evo.questengine.data.entity.User;
 import ua.ithillel.evo.questengine.data.repository.UserRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,8 +20,13 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public Optional<User> getUserByEmailAndAndPassword(String email, String password) {
-        return this.userRepository.findUserByEmailAndAndPassword(email, password);
+    public Optional<User> getByEmailAndAndPassword(String email, String password) {
+        return this.userRepository.findByEmailAndAndPassword(email, password);
+    }
+
+    @Override
+    public Optional<User> getById(Long id) {
+        return this.userRepository.findById(id);
     }
 
     @Override
@@ -36,7 +40,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public void delete(User user) {
-        this.userRepository.delete(user);
+    public void deleteById(Long id) {
+        this.userRepository.deleteById(id);
     }
 }

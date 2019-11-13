@@ -21,8 +21,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> getUserByEmailAndAndPassword(String email, String password) {
-        return this.userDAO.getUserByEmailAndAndPassword(email, password);
+    public Optional<User> getByEmailAndAndPassword(String email, String password) {
+        return this.userDAO.getByEmailAndAndPassword(email, password);
+    }
+
+    @Override
+    public Optional<User> getById(Long id) {
+        return this.userDAO.getById(id);
     }
 
     @Override
@@ -36,7 +41,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void delete(User user) {
-        this.userDAO.delete(user);
+    public void deleteById(Long id) {
+        this.userDAO.deleteById(id);
     }
 }

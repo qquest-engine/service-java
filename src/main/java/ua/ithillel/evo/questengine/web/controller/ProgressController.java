@@ -29,7 +29,7 @@ public class ProgressController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @GetMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Optional<Progress>> getById(@PathVariable Long id) {
         return new ResponseEntity<>(progressService.getById(id), HttpStatus.OK);
     }
@@ -41,7 +41,7 @@ public class ProgressController {
 
     //    placeholder for @PutMapping
 
-    @DeleteMapping(value = "{id}")
+    @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {
         progressService.deleteById(id);
         return new ResponseEntity(HttpStatus.OK);

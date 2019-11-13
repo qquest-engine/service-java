@@ -29,7 +29,7 @@ public class HintController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @GetMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Optional<Hint>> getById(@PathVariable Long id) {
         return new ResponseEntity<>(hintService.getById(id), HttpStatus.OK);
     }
@@ -41,7 +41,7 @@ public class HintController {
 
     //    placeholder for @PutMapping
 
-    @DeleteMapping(value = "{id}")
+    @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {
         hintService.deleteById(id);
         return new ResponseEntity(HttpStatus.OK);

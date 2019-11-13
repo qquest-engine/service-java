@@ -37,7 +37,7 @@ public class GameServiceImpl implements GameService {
 
     @Override
     public void createGameForUser(Long userId, Game game) {
-        User user = userDAO.getUserByEmailAndAndPassword("string", "string").orElse(null);//todo - actually user id should be kept in memory after login
+        User user = userDAO.getById(userId).orElse(null);//todo - actually user id should be kept in memory after login
         user.getGames().add(game);
         game.setUser(user);
         userDAO.save(user);

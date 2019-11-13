@@ -29,7 +29,7 @@ public class QuestionController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @GetMapping(value = "{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Optional<Question>> getById(@PathVariable Long id) {
         return new ResponseEntity<>(questionService.getById(id), HttpStatus.OK);
     }
@@ -41,7 +41,7 @@ public class QuestionController {
 
     //    placeholder for @PutMapping
 
-    @DeleteMapping(value = "{id}")
+    @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {
         questionService.deleteById(id);
         return new ResponseEntity(HttpStatus.OK);
