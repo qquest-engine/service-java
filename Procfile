@@ -1,0 +1,1 @@
+web: java -jar target/qquest-engine-2.1.9.RELEASE.jar
