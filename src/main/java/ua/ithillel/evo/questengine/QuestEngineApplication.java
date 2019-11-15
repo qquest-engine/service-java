@@ -14,7 +14,6 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @SpringBootApplication
 @EnableTransactionManagement
 @EnableSwagger2
-@EnableWebMvc
 public class QuestEngineApplication {
 
     @Bean
