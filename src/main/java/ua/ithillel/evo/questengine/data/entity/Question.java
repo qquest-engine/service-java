@@ -5,6 +5,7 @@ import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,8 +24,14 @@ public class Question {
     @Setter(AccessLevel.NONE)
     private Long id;
 
+    @Column(name = "text")
+    private String text;
+
     @Column(name = "answer")
     private String answer;
+
+    @Column(name = "duration")
+    private LocalTime duration;
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonIgnore
