@@ -20,8 +20,13 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public Optional<User> getByEmailAndAndPassword(String email, String password) {
-        return this.userRepository.findByEmailAndAndPassword(email, password);
+    public Optional<User> getByEmailAndPassword(String email, String password) {
+        return this.userRepository.findUserByEmailAndPassword(email, password);
+    }
+
+    @Override
+    public Optional<User> getByEmail(String email) {
+        return this.userRepository.findUserByEmail(email);
     }
 
     @Override

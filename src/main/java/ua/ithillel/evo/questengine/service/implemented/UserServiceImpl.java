@@ -3,7 +3,9 @@ package ua.ithillel.evo.questengine.service.implemented;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ua.ithillel.evo.questengine.data.converter.UserConverter;
 import ua.ithillel.evo.questengine.data.dao.UserDAO;
+import ua.ithillel.evo.questengine.data.dto.UserDto;
 import ua.ithillel.evo.questengine.data.entity.User;
 import ua.ithillel.evo.questengine.service.UserService;
 
@@ -21,8 +23,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> getByEmailAndAndPassword(String email, String password) {
-        return this.userDAO.getByEmailAndAndPassword(email, password);
+    public Optional<User> getByEmailAndPassword(String email, String password) {
+        return this.userDAO.getByEmailAndPassword(email, password);
+    }
+
+    @Override
+    public Optional<User> getByEmail(String email) {
+        return this.userDAO.getByEmail(email);
     }
 
     @Override
