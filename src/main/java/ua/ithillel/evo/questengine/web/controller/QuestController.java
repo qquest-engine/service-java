@@ -7,10 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ua.ithillel.evo.questengine.data.entity.Quest;
 import ua.ithillel.evo.questengine.service.QuestService;
-import ua.ithillel.evo.questengine.service.UserService;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/quests")
@@ -30,8 +28,9 @@ public class QuestController {
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Optional<Quest>> getById(@PathVariable Long id) {
-        return new ResponseEntity<>(questService.getById(id), HttpStatus.OK);
+    public ResponseEntity<Quest> getById(@PathVariable Long id) {
+        Quest quest = questService.getById(id).get();
+        return new ResponseEntity<>(quest, HttpStatus.OK);
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)

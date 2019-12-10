@@ -5,8 +5,8 @@ import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @AllArgsConstructor
@@ -31,8 +31,7 @@ public class Hint {
     private Long previousHintId;
 
     @Column(name = "duration")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date duration;
+    private LocalTime duration;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "question_id")
