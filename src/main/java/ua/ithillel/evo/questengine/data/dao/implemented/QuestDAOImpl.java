@@ -1,6 +1,7 @@
 package ua.ithillel.evo.questengine.data.dao.implemented;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 import ua.ithillel.evo.questengine.data.dao.QuestDAO;
 import ua.ithillel.evo.questengine.data.entity.Quest;
@@ -26,7 +27,7 @@ public class QuestDAOImpl implements QuestDAO {
 
     @Override
     public List<Quest> getAll() {
-        return (List<Quest>) questRepository.findAll();
+        return questRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
     }
 
     @Override

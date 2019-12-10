@@ -1,6 +1,7 @@
 package ua.ithillel.evo.questengine.data.dao.implemented;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 import ua.ithillel.evo.questengine.data.dao.UserDAO;
 import ua.ithillel.evo.questengine.data.entity.User;
@@ -21,12 +22,12 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public Optional<User> getByEmailAndPassword(String email, String password) {
-        return this.userRepository.findUserByEmailAndPassword(email, password);
+        return this.userRepository.findUserByEmailAndPasswordOrderById(email, password);
     }
 
     @Override
     public Optional<User> getByEmail(String email) {
-        return this.userRepository.findUserByEmail(email);
+        return this.userRepository.findUserByEmailOrderById(email);
     }
 
     @Override
@@ -36,7 +37,7 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public List<User> getAll() {
-        return (List<User>) this.userRepository.findAll();
+        return this.userRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
     }
 
     @Override
