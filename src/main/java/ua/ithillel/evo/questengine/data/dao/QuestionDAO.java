@@ -9,7 +9,7 @@ public interface QuestionDAO {
 
     Optional<Question> getById(Long id);
 
-    List<Question> getAll();
+    List<Question> getAllByQuestId(Long questId);
 
     void save(Question question);
 

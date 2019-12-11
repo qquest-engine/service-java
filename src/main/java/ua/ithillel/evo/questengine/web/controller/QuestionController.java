@@ -5,11 +5,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ua.ithillel.evo.questengine.data.converter.QuestionConverter;
+import ua.ithillel.evo.questengine.data.dto.QuestionDto;
 import ua.ithillel.evo.questengine.data.entity.Question;
 import ua.ithillel.evo.questengine.service.QuestionService;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/questions")
@@ -23,9 +27,8 @@ public class QuestionController {
     }
 
     @PostMapping(value = "/quest/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> create(@PathVariable Long id, @RequestBody Question question) {
-//        QuestionValidator.validate(question);
-        questionService.createQuestionForQuest(id, question);
+    public ResponseEntity<Void> create(@PathVariable Long id, @Valid @RequestBody QuestionDto questionDto) {
+        questionService.createQuestionForQuest(id, QuestionConverter.convertFromDto(questionDto));
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
@@ -34,15 +37,31 @@ public class QuestionController {
         return new ResponseEntity<>(questionService.getById(id), HttpStatus.OK);
     }
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Question>> getAll() {
-        return new ResponseEntity<>(questionService.getAll(), HttpStatus.OK);
+    @GetMapping(value = "/quest/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<QuestionDto>> getAllByQuestId(@PathVariable Long id) {
+        List<QuestionDto> questionsDto = questionService.getAllByQuestId(id).stream().map(
+                QuestionConverter::convertFromEntity
+        ).collect(Collectors.toList());
+        return new ResponseEntity<>(questionsDto, HttpStatus.OK);
     }
 
-    //    placeholder for @PutMapping
+    @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity updateQuestion(@Valid @RequestBody QuestionDto questionDto, @PathVariable Long id) {
+        Question question = questionService.getById(id).orElse(null);
+        Question newQuestion = QuestionConverter.convertFromDto(questionDto);
+        if (question != null) {
+            question.setText(newQuestion.getText());
+            question.setDuration(newQuestion.getDuration());
+            question.setAnswer(newQuestion.getAnswer());
+            questionService.save(question);
+            return new ResponseEntity(HttpStatus.OK);
+        } else {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+    }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
+    public ResponseEntity deleteById(@PathVariable Long id) {
         questionService.deleteById(id);
         return new ResponseEntity(HttpStatus.OK);
     }

@@ -31,8 +31,8 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public List<Question> getAll() {
-        return questionDAO.getAll();
+    public List<Question> getAllByQuestId(Long questId) {
+        return questionDAO.getAllByQuestId(questId);
     }
 
     @Override

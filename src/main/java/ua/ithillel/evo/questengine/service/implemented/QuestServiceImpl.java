@@ -40,7 +40,7 @@ public class QuestServiceImpl implements QuestService {
 
     @Override
     public void createQuestByUser(Long userId, Quest quest) {
-        User user = userDAO.getById(userId).orElse(null);//todo
+        User user = userDAO.getById(userId).orElse(null);
         user.getQuests().add(quest);
         quest.setUser(user);
         this.userDAO.save(user);

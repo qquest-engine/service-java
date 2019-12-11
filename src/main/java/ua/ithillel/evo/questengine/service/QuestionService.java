@@ -9,7 +9,7 @@ public interface QuestionService {
 
     Optional<Question> getById(Long id);
 
-    List<Question> getAll();
+    List<Question> getAllByQuestId(Long questId);
 
     void createQuestionForQuest(Long questId, Question question);
 
