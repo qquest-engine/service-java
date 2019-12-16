@@ -12,6 +12,7 @@ public class QuestConverter {
                 .type(questDto.getType())
                 .isPublic(questDto.getIsPublic())
                 .difficulty(questDto.getDifficulty())
+                .imageLink(questDto.getImageLink())
                 .build();
     }
 
@@ -22,6 +23,7 @@ public class QuestConverter {
                 .type(quest.getType())
                 .isPublic(quest.getIsPublic())
                 .difficulty(quest.getDifficulty())
+                .imageLink(quest.getImageLink())
                 .build();
     }
 }

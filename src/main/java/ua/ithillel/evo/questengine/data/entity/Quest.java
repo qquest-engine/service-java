@@ -39,6 +39,9 @@ public class Quest {
     @Column(name = "is_public")
     private Boolean isPublic;
 
+    @Column(name = "image_link")
+    private String imageLink;
+
     @OneToMany(mappedBy = "quest", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @Builder.Default
     @JsonIgnore

@@ -29,4 +29,7 @@ public class QuestDto {
 
     @NotNull(message = "IsPublic is required")
     private Boolean isPublic;
+
+    @NotNull(message = "Image Link is required")
+    private String imageLink;
 }
