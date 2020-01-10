@@ -31,14 +31,19 @@ public class ProgressServiceImpl implements ProgressService {
     }
 
     @Override
+    public List<Progress> getByGameId(Long gameId) {
+        return progressDAO.getByGameId(gameId);
+    }
+
+    @Override
     public List<Progress> getAll() {
         return progressDAO.getAll();
     }
 
     @Override
     public void saveProgressForGame(Long gameId, Progress progress) {
-        Game game = gameDAO.getById(gameId).orElse(null);//todo
-        game.getProgresses().add(progress);//Does it really makes sense? saving multiple progresses for 1 game ?
+        Game game = gameDAO.getById(gameId).orElse(null);
+        game.getProgresses().add(progress);
         progress.setGame(game);
         gameDAO.save(game);
     }

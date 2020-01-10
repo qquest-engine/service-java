@@ -9,6 +9,8 @@ public interface ProgressDAO {
 
     Optional<Progress> getById(Long id);
 
+    List<Progress> getByGameId(Long gameId);
+
     List<Progress> getAll();
 
     void save(Progress progress);

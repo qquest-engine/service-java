@@ -38,8 +38,8 @@ public class Hint {
     @JsonIgnore
     private Question question;
 
-    @OneToMany(mappedBy = "hint", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JsonIgnore
-    private List<Progress> progresses = new ArrayList<>();
+//    @OneToMany(mappedBy = "hint", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+//    @JsonIgnore
+//    private List<Progress> progresses = new ArrayList<>();
 
 }

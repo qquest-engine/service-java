@@ -9,6 +9,8 @@ public interface ProgressService {
 
     Optional<Progress> getById(Long id);
 
+    List<Progress> getByGameId(Long gameId);
+
     List<Progress> getAll();
 
     void saveProgressForGame(Long gameId, Progress progress);
@@ -16,5 +18,7 @@ public interface ProgressService {
     void save(Progress progress);
 
     void deleteById(Long id);
+
+
 
 }

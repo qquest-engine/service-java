@@ -38,7 +38,7 @@ public class HintServiceImpl implements HintService {
 
     @Override
     public void createHintForQuestion(Long questionId, Hint hint) {
-        Question question = questionDAO.getById(questionId).orElse(null);//todo
+        Question question = questionDAO.getById(questionId).orElse(null);
         question.getHints().add(hint);
         hint.setQuestion(question);
         questionDAO.save(question);

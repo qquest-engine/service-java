@@ -25,6 +25,11 @@ public class ProgressDAOImpl implements ProgressDAO {
     }
 
     @Override
+    public List<Progress> getByGameId(Long gameId) {
+        return progressRepository.getProgressesByGame_IdOrderById(gameId);
+    }
+
+    @Override
     public List<Progress> getAll() {
         return (List<Progress>) progressRepository.findAll();
     }

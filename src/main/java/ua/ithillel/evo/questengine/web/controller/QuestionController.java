@@ -46,7 +46,7 @@ public class QuestionController {
     }
 
     @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity updateQuestion(@Valid @RequestBody QuestionDto questionDto, @PathVariable Long id) {
+    public ResponseEntity<Void> updateQuestion(@Valid @RequestBody QuestionDto questionDto, @PathVariable Long id) {
         Question question = questionService.getById(id).orElse(null);
         Question newQuestion = QuestionConverter.convertFromDto(questionDto);
         if (question != null) {
@@ -54,15 +54,15 @@ public class QuestionController {
             question.setDuration(newQuestion.getDuration());
             question.setAnswer(newQuestion.getAnswer());
             questionService.save(question);
-            return new ResponseEntity(HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.OK);
         } else {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity deleteById(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
         questionService.deleteById(id);
-        return new ResponseEntity(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

@@ -33,9 +33,13 @@ public class Question {
     @Column(name = "duration")
     private LocalTime duration;
 
-    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Hint> hints = new ArrayList<>();
+
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<Progress> progresses = new ArrayList<>();
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "quest_id")

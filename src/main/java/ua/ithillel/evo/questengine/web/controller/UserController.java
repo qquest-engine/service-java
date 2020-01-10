@@ -27,7 +27,7 @@ public class UserController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity create(@Valid @RequestBody UserDto userDto) {
+    public ResponseEntity<Void> create(@Valid @RequestBody UserDto userDto) {
         User user = userService.getByEmail(userDto.getEmail()).orElse(null);
         if (user == null) {
             UserValidator.validate(UserConverter.convertFromDto(userDto));
@@ -39,7 +39,7 @@ public class UserController {
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity getById(@PathVariable Long id) {
+    public ResponseEntity<UserDto> getById(@PathVariable Long id) {
         User user = userService.getById(id).orElse(null);
         if (user != null) {
             return new ResponseEntity<>(UserConverter.convertFromEntity(user), HttpStatus.OK);
@@ -57,7 +57,7 @@ public class UserController {
     }
 
     @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity update(@Valid @RequestBody UserDto userDto, @PathVariable Long id) {
+    public ResponseEntity<Void> update(@Valid @RequestBody UserDto userDto, @PathVariable Long id) {
         User user = userService.getById(id).orElse(null);
         User newUser = UserConverter.convertFromDto(userDto);
         if (user != null) {
@@ -66,15 +66,15 @@ public class UserController {
             user.setRole(newUser.getRole());
             UserValidator.validate(user);
             userService.save(user);
-            return new ResponseEntity(HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.OK);
         } else {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity deleteById(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
         userService.deleteById(id);
-        return new ResponseEntity(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

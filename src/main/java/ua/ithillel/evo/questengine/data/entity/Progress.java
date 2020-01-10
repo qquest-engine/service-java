@@ -5,6 +5,7 @@ import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @AllArgsConstructor
@@ -23,8 +24,8 @@ public class Progress {
     private Long id;
 
     @Column(name = "start_time")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date startTime;
+//    @Temporal(TemporalType.TIMESTAMP)
+    private LocalDateTime startTime;
 
     @Column(name = "end_time")
     @Temporal(TemporalType.TIMESTAMP)
@@ -38,8 +39,19 @@ public class Progress {
     @JsonIgnore
     private Game game;
 
+//    @ManyToOne(optional = false)
+//    @JoinColumn(name = "hint_id")
+//    @JsonIgnore
+//    private Hint hint;
+
     @ManyToOne(optional = false)
-    @JoinColumn(name = "hint_id")
+    @JoinColumn(name = "question_id")
     @JsonIgnore
-    private Hint hint;
+    private Question question;
+
+
+    @PrePersist
+    public void prePersist() {
+        startTime = LocalDateTime.now();
+    }
 }

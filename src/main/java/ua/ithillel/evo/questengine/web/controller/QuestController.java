@@ -26,23 +26,23 @@ public class QuestController {
     }
 
     @PostMapping(value = "/user/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity create(@Valid @RequestBody QuestDto questDto, @PathVariable(name = "id") Long id) {
+    public ResponseEntity<Void> create(@Valid @RequestBody QuestDto questDto, @PathVariable(name = "id") Long id) {
         questService.createQuestByUser(id, QuestConverter.convertFromDto(questDto));
-        return new ResponseEntity(HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity getById(@PathVariable Long id) {
+    public ResponseEntity<QuestDto> getById(@PathVariable Long id) {
         Quest quest = questService.getById(id).orElse(null);
         if (quest != null) {
-            return new ResponseEntity<>(QuestConverter.convertFromEntity(quest), HttpStatus.OK);
+            return new ResponseEntity<QuestDto>(QuestConverter.convertFromEntity(quest), HttpStatus.OK);
         } else {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity getAll() {
+    public ResponseEntity<List<QuestDto>> getAll() {
         List<QuestDto> questsDto = questService.getAll().stream().map(
                 QuestConverter::convertFromEntity
         ).collect(Collectors.toList());
@@ -50,7 +50,7 @@ public class QuestController {
     }
 
     @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity updateQuest(@Valid @RequestBody QuestDto questDto, @PathVariable Long id) {
+    public ResponseEntity<Void> updateQuest(@Valid @RequestBody QuestDto questDto, @PathVariable Long id) {
         Quest quest = questService.getById(id).orElse(null);
         Quest newQuest = QuestConverter.convertFromDto(questDto);
         if (quest != null) {
@@ -60,9 +60,9 @@ public class QuestController {
             quest.setDifficulty(newQuest.getDifficulty());
             quest.setIsPublic(newQuest.getIsPublic());
             questService.save(quest);
-            return new ResponseEntity(HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.OK);
         } else {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 

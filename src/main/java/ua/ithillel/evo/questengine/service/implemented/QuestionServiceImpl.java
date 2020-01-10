@@ -37,7 +37,7 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     public void createQuestionForQuest(Long questId, Question question) {
-        Quest quest = questDAO.getById(questId).orElse(null);//todo
+        Quest quest = questDAO.getById(questId).orElse(null);
         quest.getQuestions().add(question);
         question.setQuest(quest);
         questDAO.save(quest);
