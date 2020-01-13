@@ -5,6 +5,7 @@ import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Date;
 
@@ -24,12 +25,11 @@ public class Progress {
     private Long id;
 
     @Column(name = "start_time")
-//    @Temporal(TemporalType.TIMESTAMP)
-    private LocalDateTime startTime;
+    private Long startTime;
 
     @Column(name = "end_time")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date endTime;
+//    @Temporal(TemporalType.TIMESTAMP)
+    private Long endTime;
 
     @Column(name = "successful")
     private Boolean successful;
@@ -52,6 +52,7 @@ public class Progress {
 
     @PrePersist
     public void prePersist() {
-        startTime = LocalDateTime.now();
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+        startTime = timestamp.getTime();
     }
 }
