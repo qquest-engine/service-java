@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class QuestionDto {
 
-    @NotNull(message = "Id is required")
+//    @NotNull(message = "Id is required")
     private Long id;
 
     @NotNull(message = "Text is required")

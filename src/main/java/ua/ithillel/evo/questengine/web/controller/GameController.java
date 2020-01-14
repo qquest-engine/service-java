@@ -23,8 +23,10 @@ public class GameController {
     }
 
     @PostMapping(value = "/user/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> create(@PathVariable Long id, @RequestBody Game game) {
+//    public ResponseEntity<Void> create(@PathVariable Long id, @RequestBody Game game) {
+    public ResponseEntity<Void> create(@PathVariable Long id) {
 //        GameValidator.validate(game);
+        Game game = Game.builder().build();
         gameService.createGameForUser(id, game);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }

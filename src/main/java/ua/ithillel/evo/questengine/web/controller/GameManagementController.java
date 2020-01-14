@@ -1,26 +1,24 @@
 package ua.ithillel.evo.questengine.web.controller;
 
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ua.ithillel.evo.questengine.data.converter.QuestionConverter;
 import ua.ithillel.evo.questengine.data.dto.QuestionDto;
 import ua.ithillel.evo.questengine.data.entity.Game;
 import ua.ithillel.evo.questengine.data.entity.Progress;
-import ua.ithillel.evo.questengine.data.entity.Quest;
 import ua.ithillel.evo.questengine.data.entity.Question;
-import ua.ithillel.evo.questengine.exception.ApplicationGlobalException;
-import ua.ithillel.evo.questengine.exception.handler.CustomGlobalExceptionHandler;
 import ua.ithillel.evo.questengine.service.GameService;
 import ua.ithillel.evo.questengine.service.ProgressService;
 import ua.ithillel.evo.questengine.service.QuestionService;
 
+import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -81,6 +79,53 @@ public class GameManagementController {
                         }
                     }
                 }
+            }
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @PostMapping(value = "/game/{game_id}/quest/{quest_id}/question/{question_id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> checkAnswer(@PathVariable Long game_id,
+                                            @PathVariable Long quest_id,
+                                            @PathVariable Long question_id,
+                                            @RequestBody String answerJson) {
+        ObjectMapper mapper = new ObjectMapper();
+        String answer = null;
+        try {
+            JsonNode jsonNodeAnswer = mapper.readTree(answerJson);
+            JsonNode idNode = jsonNodeAnswer.path("Answer");
+            answer = idNode.asText();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Optional<Question> optionalQuestion = questionService.getById(question_id);
+        Question question = null;
+        if (optionalQuestion.isPresent()) {
+            question = optionalQuestion.get();
+        }
+        List<String> answers = Arrays.asList(question.getAnswer().split(";"));
+        for (String a : answers) {
+            if (answer.equals(a)) {
+                List<Progress> progress = progressService.getByGameId(game_id);
+                Optional<Progress> optionalProgress = progress.stream().filter(p -> p.getQuestion().getId().equals(question_id)).findFirst();
+                Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+                if (optionalProgress.isPresent()) {
+                    Progress lastProgress = optionalProgress.get();
+                    if (lastProgress.getStartTime() + question.getDuration() >= System.currentTimeMillis()) {
+                        lastProgress.setSuccessful(true);
+                        int i = 0;
+                    } else {
+                        lastProgress.setSuccessful(false);
+                        int i = 0;
+                    }
+                    if (lastProgress.getEndTime() == null) {
+                        lastProgress.setEndTime(timestamp.getTime());
+                        progressService.save(lastProgress);
+                    }
+                    return new ResponseEntity<>(HttpStatus.OK);
+                }
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
