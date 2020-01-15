@@ -16,11 +16,8 @@ import java.time.LocalTime;
 public class HintDto {
 
     @NotNull(message = "Text is required")
-    private String text;
+    private String hintText;
 
-    @NotNull(message = "Dduration is required")
-    private LocalTime duration;
-
-    @NotNull(message = "Answer is required")
-    private String answer;
+    @NotNull(message = "Duration is required")
+    private Long duration;
 }

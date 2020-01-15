@@ -84,9 +84,8 @@ public class GameManagementController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @PostMapping(value = "/game/{game_id}/quest/{quest_id}/question/{question_id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/game/{game_id}/question/{question_id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> checkAnswer(@PathVariable Long game_id,
-                                            @PathVariable Long quest_id,
                                             @PathVariable Long question_id,
                                             @RequestBody String answerJson) {
         ObjectMapper mapper = new ObjectMapper();
@@ -104,7 +103,7 @@ public class GameManagementController {
         if (optionalQuestion.isPresent()) {
             question = optionalQuestion.get();
         }
-        List<String> answers = Arrays.asList(question.getAnswer().split(";"));
+        String[] answers = question.getAnswer().split(";");
         for (String a : answers) {
             if (answer.equals(a)) {
                 List<Progress> progress = progressService.getByGameId(game_id);

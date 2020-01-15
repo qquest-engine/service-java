@@ -31,7 +31,7 @@ public class Hint {
     private Long previousHintId;
 
     @Column(name = "duration")
-    private LocalTime duration;
+    private Long duration;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "question_id")

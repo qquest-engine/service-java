@@ -26,4 +26,6 @@ public class QuestionDto {
 
     @NotNull(message = "Answer is required")
     private String answer;
+
+    private String hint;
 }

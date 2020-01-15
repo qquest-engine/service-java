@@ -5,10 +5,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ua.ithillel.evo.questengine.data.converter.HintConverter;
+import ua.ithillel.evo.questengine.data.dto.HintDto;
 import ua.ithillel.evo.questengine.data.entity.Hint;
+import ua.ithillel.evo.questengine.data.entity.Question;
 import ua.ithillel.evo.questengine.service.HintService;
+import ua.ithillel.evo.questengine.service.QuestionService;
 
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -16,30 +19,26 @@ import java.util.Optional;
 public class HintController {
 
     private HintService hintService;
+    private final QuestionService questionService;
 
     @Autowired
-    public HintController(HintService hintService) {
+    public HintController(HintService hintService, QuestionService questionService) {
         this.hintService = hintService;
+        this.questionService = questionService;
     }
 
     @PostMapping(value = "/question/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> create(@PathVariable Long id, @RequestBody Hint hint) {
+    public ResponseEntity<Void> create(@PathVariable Long id, @RequestBody HintDto hintDto) {
 //        HintValidator.validate(hint);
-        hintService.createHintForQuestion(id, hint);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        Hint hint = HintConverter.convertFromDto(hintDto);
+        final Optional<Question> optionalQuestion = questionService.getById(id);
+        if (optionalQuestion.isPresent()) {
+            hint.setQuestion(optionalQuestion.get());
+            hintService.save(hint);
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
-
-    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Optional<Hint>> getById(@PathVariable Long id) {
-        return new ResponseEntity<>(hintService.getById(id), HttpStatus.OK);
-    }
-
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<Hint>> getAll() {
-        return new ResponseEntity<>(hintService.getAll(), HttpStatus.OK);
-    }
-
-    //    placeholder for @PutMapping
 
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {
