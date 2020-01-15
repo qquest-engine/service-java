@@ -34,13 +34,6 @@ public class ProgressController {
         return new ResponseEntity<>(progressService.getById(id), HttpStatus.OK);
     }
 
-//    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-//    public ResponseEntity<List<Progress>> getAll() {
-//        return new ResponseEntity<>(progressService.getAll(), HttpStatus.OK);
-//    }
-
-    //    placeholder for @PutMapping
-
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {
         progressService.deleteById(id);

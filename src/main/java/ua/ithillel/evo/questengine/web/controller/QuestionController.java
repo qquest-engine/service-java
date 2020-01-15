@@ -37,14 +37,6 @@ public class QuestionController {
         return new ResponseEntity<>(questionService.getById(id), HttpStatus.OK);
     }
 
-    @GetMapping(value = "/quest/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<QuestionDto>> getAllByQuestId(@PathVariable Long id) {
-        List<QuestionDto> questionsDto = questionService.getAllByQuestId(id).stream().map(
-                QuestionConverter::convertFromEntity
-        ).collect(Collectors.toList());
-        return new ResponseEntity<>(questionsDto, HttpStatus.OK);
-    }
-
     @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> updateQuestion(@Valid @RequestBody QuestionDto questionDto, @PathVariable Long id) {
         Question question = questionService.getById(id).orElse(null);

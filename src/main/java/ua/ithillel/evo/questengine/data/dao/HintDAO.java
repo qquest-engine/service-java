@@ -14,5 +14,4 @@ public interface HintDAO {
     void save(Hint hint);
 
     void deleteById(Long id);
-
 }

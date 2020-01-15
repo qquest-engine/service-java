@@ -11,10 +11,14 @@ public interface HintService {
 
     List<Hint> getAll();
 
-    void createHintForQuestion(Long questionId, Hint hint);
+//    void createHintForQuestion(Long questionId, Hint hint);
 
     void save(Hint hint);
 
     void deleteById(Long id);
+
+    List<Hint> getCurrentHintForQuestion(Long questionId, Long questionStartTime);
+
+//    Long getHintDurationByHintId(Long hintId);
 
 }

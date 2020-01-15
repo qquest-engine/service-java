@@ -15,7 +15,7 @@ public class HintConverter {
     public static HintDto convertFromEntity(Hint hint) {
         return HintDto.builder()
                 .hintText(hint.getHintText())
-                .duration(hint.getDuration())
+//                .duration(hint.getDuration())
                 .build();
     }
 }

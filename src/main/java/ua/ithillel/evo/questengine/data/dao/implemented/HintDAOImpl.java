@@ -38,4 +38,5 @@ public class HintDAOImpl implements HintDAO {
     public void deleteById(Long id) {
         hintRepository.deleteById(id);
     }
+
 }

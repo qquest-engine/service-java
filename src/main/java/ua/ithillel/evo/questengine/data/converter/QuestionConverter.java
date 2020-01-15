@@ -17,8 +17,6 @@ public class QuestionConverter {
         return QuestionDto.builder()
                 .id(question.getId())
                 .text(question.getText())
-                .duration(question.getDuration())
-//                .answer(question.getAnswer())
                 .build();
     }
 }
