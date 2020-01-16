@@ -25,8 +25,8 @@ public class MyUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-        userService.getByEmail(userName);
-        return new User("foo", "bar", new ArrayList<>());
+        ua.ithillel.evo.questengine.data.entity.User user = userService.getByEmail(userName).orElse(null);//todo
+        return new User(user.getEmail(), user.getPassword(), new ArrayList<>());
     }
 
 //    @Bean
