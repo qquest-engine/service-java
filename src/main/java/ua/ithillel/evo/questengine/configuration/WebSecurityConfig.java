@@ -17,10 +17,14 @@ import ua.ithillel.evo.questengine.filters.JwtRequestFilter;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
+    private final UserDetailsService myUserDetailsService;
+    private final JwtRequestFilter jwtRequestFilter;
+
     @Autowired
-    private UserDetailsService myUserDetailsService;
-    @Autowired
-    private JwtRequestFilter jwtRequestFilter;
+    public WebSecurityConfig(UserDetailsService myUserDetailsService, JwtRequestFilter jwtRequestFilter) {
+        this.myUserDetailsService = myUserDetailsService;
+        this.jwtRequestFilter = jwtRequestFilter;
+    }
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
