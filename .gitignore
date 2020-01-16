@@ -1,0 +1,16 @@
+.idea
+gradle
+.gitignore
+out
+target
+build
+build.gradle
+gradlew
+gradlew.bat
+*.iml
+.gradle
+*.log
+*/downloads
+*/build
+*/out
+*application.yml
