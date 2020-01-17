@@ -27,8 +27,8 @@ public class UserController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> create(@Valid @RequestBody UserDto userDto) {
-        User user = userService.getByEmail(userDto.getEmail()).orElse(null);
+    public ResponseEntity<Void> create(@Valid @RequestBody UserDto userDto) throws Exception {
+        User user = userService.getByEmail(userDto.getEmail());
         if (user == null) {
             UserValidator.validate(UserConverter.convertFromDto(userDto));
             userService.save(UserConverter.convertFromDto(userDto));
@@ -57,7 +57,7 @@ public class UserController {
     }
 
     @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> update(@Valid @RequestBody UserDto userDto, @PathVariable Long id) {
+    public ResponseEntity<Void> update(@Valid @RequestBody UserDto userDto, @PathVariable Long id) throws Exception {
         User user = userService.getById(id).orElse(null);
         User newUser = UserConverter.convertFromDto(userDto);
         if (user != null) {

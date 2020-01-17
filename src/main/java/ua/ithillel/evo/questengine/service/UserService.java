@@ -9,15 +9,15 @@ import java.util.Optional;
 
 public interface UserService {
 
-    Optional<User> getByEmailAndPassword(String email, String password);
+    User getByEmailAndPassword(String email, String password);
 
-    Optional<User> getByEmail(String email);
+    User getByEmail(String email);
 
     Optional<User> getById(Long id);
 
     List<User> getAll();
 
-    void save(User user);
+    void save(User user) throws Exception;
 
     void deleteById(Long id);
 }
