@@ -40,7 +40,7 @@ public class UserController {
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserDto> getById(@PathVariable Long id) {
-        User user = userService.getById(id).orElse(null);
+        User user = userService.getById(id);
         if (user != null) {
             return new ResponseEntity<>(UserConverter.convertFromEntity(user), HttpStatus.OK);
         } else
@@ -58,7 +58,7 @@ public class UserController {
 
     @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> update(@Valid @RequestBody UserDto userDto, @PathVariable Long id) throws Exception {
-        User user = userService.getById(id).orElse(null);
+        User user = userService.getById(id);
         User newUser = UserConverter.convertFromDto(userDto);
         if (user != null) {
             user.setEmail(newUser.getEmail());

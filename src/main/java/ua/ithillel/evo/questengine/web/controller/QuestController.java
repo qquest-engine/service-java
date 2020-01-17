@@ -33,7 +33,7 @@ public class QuestController {
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<QuestDto> getById(@PathVariable Long id) {
-        Quest quest = questService.getById(id).orElse(null);
+        Quest quest = questService.getById(id);
         if (quest != null) {
             return new ResponseEntity<QuestDto>(QuestConverter.convertFromEntity(quest), HttpStatus.OK);
         } else {
@@ -51,7 +51,7 @@ public class QuestController {
 
     @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> updateQuest(@Valid @RequestBody QuestDto questDto, @PathVariable Long id) {
-        Quest quest = questService.getById(id).orElse(null);
+        Quest quest = questService.getById(id);
         Quest newQuest = QuestConverter.convertFromDto(questDto);
         if (quest != null) {
             quest.setName(newQuest.getName());

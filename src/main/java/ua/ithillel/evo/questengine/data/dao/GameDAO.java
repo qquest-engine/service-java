@@ -7,7 +7,9 @@ import java.util.Optional;
 
 public interface GameDAO {
 
-    Optional<Game> getById(Long id);
+    Game getById(Long id);
+
+    List<Game> getGamesByUserId(Long userId);
 
     List<Game> getAll();
 

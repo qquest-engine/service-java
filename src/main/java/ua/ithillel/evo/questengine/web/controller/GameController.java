@@ -32,7 +32,7 @@ public class GameController {
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Optional<Game>> getById(@PathVariable Long id) {
+    public ResponseEntity<Game> getById(@PathVariable Long id) {
         return new ResponseEntity<>(gameService.getById(id), HttpStatus.OK);
     }
 

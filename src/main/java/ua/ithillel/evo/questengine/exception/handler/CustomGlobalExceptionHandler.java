@@ -7,8 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-import ua.ithillel.evo.questengine.data.entity.Hint;
-import ua.ithillel.evo.questengine.data.entity.User;
 import ua.ithillel.evo.questengine.exception.ApplicationGlobalException;
 import ua.ithillel.evo.questengine.exception.UserValidationException;
 import ua.ithillel.evo.questengine.exception.model.ErrorMessage;

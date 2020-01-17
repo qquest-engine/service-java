@@ -1,7 +1,6 @@
 package ua.ithillel.evo.questengine.service;
 
 
-import ua.ithillel.evo.questengine.data.dto.UserDto;
 import ua.ithillel.evo.questengine.data.entity.User;
 
 import java.util.List;
@@ -13,7 +12,7 @@ public interface UserService {
 
     User getByEmail(String email);
 
-    Optional<User> getById(Long id);
+    User getById(Long id);
 
     List<User> getAll();
 

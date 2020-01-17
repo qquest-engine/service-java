@@ -10,7 +10,6 @@ import ua.ithillel.evo.questengine.data.entity.User;
 import ua.ithillel.evo.questengine.service.GameService;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional
@@ -26,8 +25,13 @@ public class GameServiceImpl implements GameService {
     }
 
     @Override
-    public Optional<Game> getById(Long id) {
+    public Game getById(Long id) {
         return gameDAO.getById(id);
+    }
+
+    @Override
+    public List<Game> getGamesByUserId(Long userId) {
+        return gameDAO.getGamesByUserId(userId);
     }
 
     @Override
@@ -37,7 +41,7 @@ public class GameServiceImpl implements GameService {
 
     @Override
     public void createGameForUser(Long userId, Game game) {
-        User user = userDAO.getById(userId).orElse(null);
+        User user = userDAO.getById(userId);
         user.getGames().add(game);
         game.setUser(user);
         userDAO.save(user);

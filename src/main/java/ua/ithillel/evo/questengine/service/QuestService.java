@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface QuestService {
 
-    Optional<Quest> getById(Long id);
+    Quest getById(Long id);
 
     List<Quest> getAll();
 

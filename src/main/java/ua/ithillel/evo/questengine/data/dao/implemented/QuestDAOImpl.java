@@ -21,8 +21,8 @@ public class QuestDAOImpl implements QuestDAO {
     }
 
     @Override
-    public Optional<Quest> getById(Long id) {
-        return questRepository.findById(id);
+    public Quest getById(Long id) {
+        return questRepository.findById(id).orElse(null);
     }
 
     @Override

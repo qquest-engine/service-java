@@ -42,7 +42,7 @@ public class ProgressServiceImpl implements ProgressService {
 
     @Override
     public void saveProgressForGame(Long gameId, Progress progress) {
-        Game game = gameDAO.getById(gameId).orElse(null);
+        Game game = gameDAO.getById(gameId);
         game.getProgresses().add(progress);
         progress.setGame(game);
         gameDAO.save(game);

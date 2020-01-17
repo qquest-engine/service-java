@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import ua.ithillel.evo.questengine.data.entity.Progress;
 import ua.ithillel.evo.questengine.service.ProgressService;
 
-import java.util.List;
 import java.util.Optional;
 
 @RestController

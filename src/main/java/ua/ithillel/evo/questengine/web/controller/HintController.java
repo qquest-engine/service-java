@@ -31,9 +31,9 @@ public class HintController {
     public ResponseEntity<Void> create(@PathVariable Long id, @RequestBody HintDto hintDto) {
 //        HintValidator.validate(hint);
         Hint hint = HintConverter.convertFromDto(hintDto);
-        final Optional<Question> optionalQuestion = questionService.getById(id);
-        if (optionalQuestion.isPresent()) {
-            hint.setQuestion(optionalQuestion.get());
+        final Question question = questionService.getById(id);
+        if (question != null) {
+            hint.setQuestion(question);
             hintService.save(hint);
             return new ResponseEntity<>(HttpStatus.CREATED);
         }

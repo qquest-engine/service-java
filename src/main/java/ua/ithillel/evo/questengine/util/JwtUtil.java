@@ -5,6 +5,8 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import ua.ithillel.evo.questengine.data.entity.User;
+import ua.ithillel.evo.questengine.service.UserService;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -13,7 +15,13 @@ import java.util.function.Function;
 
 @Service
 public class JwtUtil {
+
+    private final UserService userService;
     private String SECRET_KEY = "alohomora"; //todo: set this via value from property file
+
+    public JwtUtil(UserService userService) {
+        this.userService = userService;
+    }
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
@@ -38,14 +46,20 @@ public class JwtUtil {
 
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
+        User user = userService.getByEmail(userDetails.getUsername());
+        claims.put("id", user.getId());
         return createToken(claims, userDetails.getUsername());
     }
 
     private String createToken(Map<String, Object> claims, String subject) {
 
-        return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
+        return Jwts.builder()
+                .setClaims(claims)
+                .setSubject(subject)
+                .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10))
-                .signWith(SignatureAlgorithm.HS256, SECRET_KEY).compact();
+                .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
+                .compact();
     }
 
     public Boolean validateToken(String token, UserDetails userDetails) {

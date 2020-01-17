@@ -25,7 +25,6 @@ public class UserServiceImpl implements UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-
     @Override
     public User getByEmailAndPassword(String email, String password) {
         return this.userDAO.getByEmailAndPassword(email, password);
@@ -37,7 +36,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> getById(Long id) {
+    public User getById(Long id) {
         return this.userDAO.getById(id);
     }
 
@@ -48,12 +47,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void save(User newUser) throws Exception {
-        User userFromDb = getByEmail(newUser.getEmail());
-        if (userFromDb != null) {
-            throw new Exception("Email already exist!");
+        if (newUser.getId() != null) {
+            newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
+            this.userDAO.save(newUser);
+        } else {
+            User userFromDb = getByEmail(newUser.getEmail());
+            if (userFromDb != null) {
+                throw new Exception("Email already exist!");
+            }
+            newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
+            this.userDAO.save(newUser);
         }
-        newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
-        this.userDAO.save(newUser);
     }
 
     @Override

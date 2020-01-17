@@ -57,10 +57,10 @@ public class HintServiceImpl implements HintService {
     @Override
     public List<Hint> getCurrentHintForQuestion(Long questionId, Long questionStartTime) {
         final long currentTime = System.currentTimeMillis();
-        final Optional<Question> optionalQuestion = this.questionDAO.getById(questionId);
+        final Question question = this.questionDAO.getById(questionId);
         List<Hint> hintsForUserShow = new ArrayList<>();
-        if (optionalQuestion.isPresent()) {
-            List<Hint> hints = optionalQuestion.get().getHints();
+        if (question != null) {
+            List<Hint> hints = question.getHints();
             for (Hint h : hints) {
                 if (questionStartTime + h.getDuration() < currentTime) {
                     hintsForUserShow.add(h);

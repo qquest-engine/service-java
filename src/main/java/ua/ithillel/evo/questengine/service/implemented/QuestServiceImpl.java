@@ -1,7 +1,6 @@
 package ua.ithillel.evo.questengine.service.implemented;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.ithillel.evo.questengine.data.dao.QuestDAO;
@@ -10,10 +9,7 @@ import ua.ithillel.evo.questengine.data.entity.Quest;
 import ua.ithillel.evo.questengine.data.entity.User;
 import ua.ithillel.evo.questengine.service.QuestService;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional
@@ -29,7 +25,7 @@ public class QuestServiceImpl implements QuestService {
     }
 
     @Override
-    public Optional<Quest> getById(Long id) {
+    public Quest getById(Long id) {
         return this.questDAO.getById(id);
     }
 
@@ -40,7 +36,7 @@ public class QuestServiceImpl implements QuestService {
 
     @Override
     public void createQuestByUser(Long userId, Quest quest) {
-        User user = userDAO.getById(userId).orElse(null);
+        User user = userDAO.getById(userId);
         user.getQuests().add(quest);
         quest.setUser(user);
         this.userDAO.save(user);
