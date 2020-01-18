@@ -35,6 +35,11 @@ public class QuestServiceImpl implements QuestService {
     }
 
     @Override
+    public List<Quest> getPublic() {
+        return this.questDAO.getPublic();
+    }
+
+    @Override
     public void createQuestByUser(Long userId, Quest quest) {
         User user = userDAO.getById(userId);
         user.getQuests().add(quest);

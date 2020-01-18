@@ -24,11 +24,14 @@ public class QuestDto {
     @NotNull(message = "Type is required")
     private Type type;
 
-    private Integer difficulty;
+    @NotNull(message = "Access Time is required")
+    private Long accessTime;
 
     @NotNull(message = "IsPublic is required")
     private Boolean isPublic;
 
     @NotNull(message = "Image Link is required")
     private String imageLink;
+
+    private Long author;
 }

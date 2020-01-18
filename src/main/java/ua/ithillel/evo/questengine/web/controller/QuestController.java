@@ -9,6 +9,7 @@ import ua.ithillel.evo.questengine.data.converter.QuestConverter;
 import ua.ithillel.evo.questengine.data.dto.QuestDto;
 import ua.ithillel.evo.questengine.data.entity.Quest;
 import ua.ithillel.evo.questengine.service.QuestService;
+import ua.ithillel.evo.questengine.util.JwtUtil;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -19,15 +20,30 @@ import java.util.stream.Collectors;
 public class QuestController {
 
     private final QuestService questService;
+    private final JwtUtil jwtUtil;
 
     @Autowired
-    public QuestController(QuestService questService) {
+    public QuestController(QuestService questService, JwtUtil jwtUtil) {
         this.questService = questService;
+        this.jwtUtil = jwtUtil;
     }
 
-    @PostMapping(value = "/user/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> create(@Valid @RequestBody QuestDto questDto, @PathVariable(name = "id") Long id) {
-        questService.createQuestByUser(id, QuestConverter.convertFromDto(questDto));
+    private Long getUserIdFromToken(String jwt_token) {
+        String token = jwt_token.replace("Token:", "");
+        return Long.parseLong(jwtUtil.extractClaim(token, claim -> claim.get("id")).toString());
+    }
+
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Void> create(
+            @Valid @RequestBody QuestDto questDto,
+            @RequestHeader("Authorization") String jwt_token
+    ) {
+        Long userId = 0L;
+        if (jwt_token != null && jwt_token.startsWith("Token")) {
+            userId = getUserIdFromToken(jwt_token);
+        }
+
+        questService.createQuestByUser(userId, QuestConverter.convertFromDto(questDto));
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
@@ -43,7 +59,7 @@ public class QuestController {
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<QuestDto>> getAll() {
-        List<QuestDto> questsDto = questService.getAll().stream().map(
+        List<QuestDto> questsDto = questService.getPublic().stream().map(
                 QuestConverter::convertFromEntity
         ).collect(Collectors.toList());
          return new ResponseEntity<>(questsDto, HttpStatus.OK);
@@ -57,7 +73,7 @@ public class QuestController {
             quest.setName(newQuest.getName());
             quest.setDescription(newQuest.getDescription());
             quest.setType(newQuest.getType());
-            quest.setDifficulty(newQuest.getDifficulty());
+            quest.setAccessTime(newQuest.getAccessTime());
             quest.setIsPublic(newQuest.getIsPublic());
             questService.save(quest);
             return new ResponseEntity<>(HttpStatus.OK);

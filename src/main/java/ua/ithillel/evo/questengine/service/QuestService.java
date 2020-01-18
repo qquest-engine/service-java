@@ -11,6 +11,8 @@ public interface QuestService {
 
     List<Quest> getAll();
 
+    List<Quest> getPublic();
+
     void createQuestByUser(Long userId, Quest quest);
 
     void save(Quest quest);

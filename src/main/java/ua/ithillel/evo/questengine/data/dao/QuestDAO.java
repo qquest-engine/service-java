@@ -11,6 +11,8 @@ public interface QuestDAO {
 
     List<Quest> getAll();
 
+    List<Quest> getPublic();
+
     void save(Quest quest);
 
     void deleteById(Long id);

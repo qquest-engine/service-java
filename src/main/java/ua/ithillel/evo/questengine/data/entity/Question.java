@@ -32,6 +32,9 @@ public class Question {
     @Column(name = "duration")
     private Long duration;
 
+    @Column(name = "image_link")
+    private String imageLink;
+
     @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Hint> hints = new ArrayList<>();
