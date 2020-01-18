@@ -4,11 +4,11 @@ server:
 #    context-path: /quest-engine
 
 spring:
- datasource:
-  url: jdbc:postgresql://ec2-54-83-55-122.compute-1.amazonaws.com:5432/d4jvf5pgdvn0jc
-  username: vzxmcgwvymalsj
-  password: 055675876021f0ef5d32d663c2e2cb2dba580669c3567398914fd5153f492397
-  driver-class-name: org.postgresql.Driver
+  datasource:
+    url: jdbc:postgresql://ec2-54-83-55-122.compute-1.amazonaws.com:5432/d4jvf5pgdvn0jc
+    username: vzxmcgwvymalsj
+    password: 055675876021f0ef5d32d663c2e2cb2dba580669c3567398914fd5153f492397
+    driver-class-name: org.postgresql.Driver
 
 #spring:
 #  datasource:
@@ -20,7 +20,7 @@ spring:
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: validate
+      ddl-auto: create
 
     properties:
       hibernate:
