@@ -12,6 +12,7 @@ import ua.ithillel.evo.questengine.service.QuestService;
 import ua.ithillel.evo.questengine.service.UserService;
 import ua.ithillel.evo.questengine.util.JwtUtil;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -67,6 +68,12 @@ public class QuestController {
                 QuestConverter::convertFromEntity
         ).collect(Collectors.toList());
          return new ResponseEntity<>(questsDto, HttpStatus.OK);
+    }
+
+    @RequestMapping(method = RequestMethod.OPTIONS)
+    public ResponseEntity options(HttpServletResponse response) {
+        response.setHeader("Allow", "HEAD,GET,PUT,OPTIONS");
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
