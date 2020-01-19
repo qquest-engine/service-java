@@ -1,5 +1,6 @@
 package ua.ithillel.evo.questengine.web.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -16,11 +17,16 @@ import ua.ithillel.evo.questengine.util.JwtUtil;
 @RestController
 public class AuthenticationController {
 
-    private final AuthenticationManager authenticationManager;
-    private final JwtUtil jwtTokenUtil;
-    private final MyUserDetailsService userDetailsService;
+    private AuthenticationManager authenticationManager;
+    private JwtUtil jwtTokenUtil;
+    private MyUserDetailsService userDetailsService;
 
-    public AuthenticationController(AuthenticationManager authenticationManager, JwtUtil jwtTokenUtil, MyUserDetailsService userDetailsService) {
+    @Autowired
+    public AuthenticationController(
+            AuthenticationManager authenticationManager,
+            JwtUtil jwtTokenUtil,
+            MyUserDetailsService userDetailsService
+    ) {
         this.authenticationManager = authenticationManager;
         this.jwtTokenUtil = jwtTokenUtil;
         this.userDetailsService = userDetailsService;

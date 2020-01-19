@@ -13,7 +13,7 @@ public interface QuestDAO {
 
     List<Quest> getPublic();
 
-    void save(Quest quest);
+    Quest save(Quest quest);
 
     void deleteById(Long id);
 }

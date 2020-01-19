@@ -16,8 +16,8 @@ import java.util.Optional;
 @Transactional
 public class UserServiceImpl implements UserService {
 
-    private final UserDAO userDAO;
-    private final PasswordEncoder passwordEncoder;
+    private UserDAO userDAO;
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     public UserServiceImpl(UserDAO userDAO, PasswordEncoder passwordEncoder) {

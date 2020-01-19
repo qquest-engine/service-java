@@ -18,6 +18,7 @@ public class QuestConverter {
 
     public static QuestDto convertFromEntity(Quest quest) {
         return QuestDto.builder()
+                .id(quest.getId())
                 .name(quest.getName())
                 .description(quest.getDescription())
                 .type(quest.getType())

@@ -9,6 +9,7 @@ import ua.ithillel.evo.questengine.data.converter.QuestConverter;
 import ua.ithillel.evo.questengine.data.dto.QuestDto;
 import ua.ithillel.evo.questengine.data.entity.Quest;
 import ua.ithillel.evo.questengine.service.QuestService;
+import ua.ithillel.evo.questengine.service.UserService;
 import ua.ithillel.evo.questengine.util.JwtUtil;
 
 import javax.validation.Valid;
@@ -19,32 +20,35 @@ import java.util.stream.Collectors;
 @RequestMapping("/quests")
 public class QuestController {
 
-    private final QuestService questService;
-    private final JwtUtil jwtUtil;
+    private QuestService questService;
+    private UserService userService;
+    private JwtUtil jwtUtil;
 
     @Autowired
-    public QuestController(QuestService questService, JwtUtil jwtUtil) {
+    public QuestController(QuestService questService, JwtUtil jwtUtil, UserService userService) {
         this.questService = questService;
         this.jwtUtil = jwtUtil;
+        this.userService = userService;
     }
 
     private Long getUserIdFromToken(String jwt_token) {
-        String token = jwt_token.replace("Token:", "");
+        String token = jwt_token.replace("Bearer ", "");
         return Long.parseLong(jwtUtil.extractClaim(token, claim -> claim.get("id")).toString());
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> create(
+    public ResponseEntity<Long> create(
             @Valid @RequestBody QuestDto questDto,
             @RequestHeader("Authorization") String jwt_token
     ) {
         Long userId = 0L;
-        if (jwt_token != null && jwt_token.startsWith("Token")) {
+        if (jwt_token != null && jwt_token.startsWith("Bearer")) {
             userId = getUserIdFromToken(jwt_token);
         }
-
-        questService.createQuestByUser(userId, QuestConverter.convertFromDto(questDto));
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        Quest quest = QuestConverter.convertFromDto(questDto);
+        quest.setUser(userService.getById(userId));
+        Quest savedQuest = questService.save(quest);
+        return new ResponseEntity<>(savedQuest.getId(), HttpStatus.CREATED);
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -87,5 +91,4 @@ public class QuestController {
         questService.deleteById(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
 }

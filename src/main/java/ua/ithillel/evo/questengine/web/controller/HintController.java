@@ -19,7 +19,7 @@ import java.util.Optional;
 public class HintController {
 
     private HintService hintService;
-    private final QuestionService questionService;
+    private QuestionService questionService;
 
     @Autowired
     public HintController(HintService hintService, QuestionService questionService) {

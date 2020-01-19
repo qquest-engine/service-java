@@ -15,6 +15,8 @@ import javax.validation.constraints.NotNull;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class QuestDto {
 
+    private Long id;
+
     @NotNull(message = "Name is required")
     private String name;
 
