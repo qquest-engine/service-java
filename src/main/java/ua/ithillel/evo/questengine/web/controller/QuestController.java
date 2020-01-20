@@ -63,17 +63,19 @@ public class QuestController {
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<QuestDto>> getAll() {
+    public ResponseEntity<List<QuestDto>> getAll(HttpServletResponse response) {
         List<QuestDto> questsDto = questService.getPublic().stream().map(
                 QuestConverter::convertFromEntity
         ).collect(Collectors.toList());
-         return new ResponseEntity<>(questsDto, HttpStatus.OK);
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        return new ResponseEntity<>(questsDto, HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.OPTIONS)
-    public ResponseEntity options(HttpServletResponse response) {
+    public ResponseEntity<Void> options(HttpServletResponse response) {
         response.setHeader("Allow", "HEAD,GET,PUT,OPTIONS");
-        return new ResponseEntity(HttpStatus.OK);
+        response.setHeader("Access-Control-Allow-Origin", "*");
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
