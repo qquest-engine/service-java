@@ -1,7 +1,12 @@
 server:
   port: ${PORT:9000}
+<<<<<<< HEAD
   servlet:
     context-path: /quest-engine
+=======
+#  servlet:
+#    context-path: /quest-engine
+>>>>>>> detached-at-fb02169
 
 spring:
   datasource:
@@ -20,7 +25,11 @@ spring:
   jpa:
     show-sql: true
     hibernate:
+<<<<<<< HEAD
       ddl-auto: create
+=======
+      ddl-auto: validate
+>>>>>>> detached-at-fb02169
 
     properties:
       hibernate:

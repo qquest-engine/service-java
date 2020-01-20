@@ -17,7 +17,7 @@ import java.util.function.Function;
 public class JwtUtil {
 
     private final UserService userService;
-    private String SECRET_KEY = "alohomora"; //todo: set this via value from property file
+    private final String SECRET_KEY = "alohomora"; //todo: set this via value from property file
 
     public JwtUtil(UserService userService) {
         this.userService = userService;
@@ -27,7 +27,7 @@ public class JwtUtil {
         return extractClaim(token, Claims::getSubject);
     }
 
-    public Date extractExpiration(String token) {
+    private Date extractExpiration(String token) {
         return extractClaim(token, Claims::getExpiration);
     }
 

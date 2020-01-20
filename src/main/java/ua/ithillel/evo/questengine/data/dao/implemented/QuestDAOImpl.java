@@ -31,8 +31,13 @@ public class QuestDAOImpl implements QuestDAO {
     }
 
     @Override
-    public void save(Quest quest) {
-        questRepository.save(quest);
+    public List<Quest> getPublic() {
+        return this.questRepository.getQuestsByIsPublicTrueOrderByAccessTimeDesc();
+    }
+
+    @Override
+    public Quest save(Quest quest) {
+        return questRepository.save(quest);
     }
 
     @Override

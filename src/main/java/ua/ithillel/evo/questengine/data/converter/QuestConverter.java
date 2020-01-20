@@ -11,19 +11,21 @@ public class QuestConverter {
                 .description(questDto.getDescription())
                 .type(questDto.getType())
                 .isPublic(questDto.getIsPublic())
-                .difficulty(questDto.getDifficulty())
+                .accessTime(questDto.getAccessTime())
                 .imageLink(questDto.getImageLink())
                 .build();
     }
 
     public static QuestDto convertFromEntity(Quest quest) {
         return QuestDto.builder()
+                .id(quest.getId())
                 .name(quest.getName())
                 .description(quest.getDescription())
                 .type(quest.getType())
                 .isPublic(quest.getIsPublic())
-                .difficulty(quest.getDifficulty())
+                .accessTime(quest.getAccessTime())
                 .imageLink(quest.getImageLink())
+                .author(quest.getUser().getId())
                 .build();
     }
 }

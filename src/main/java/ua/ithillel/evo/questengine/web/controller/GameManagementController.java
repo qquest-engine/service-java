@@ -3,6 +3,7 @@ package ua.ithillel.evo.questengine.web.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -38,6 +39,7 @@ public class GameManagementController {
     private HintService hintService;
     private JwtUtil jwtUtil;
 
+    @Autowired
     public GameManagementController(
             QuestionService questionService,
             ProgressService progressService,
@@ -53,7 +55,7 @@ public class GameManagementController {
     }
 
     private Long getUserIdFromToken(String jwt_token) {
-        String token = jwt_token.replace("Token:", "");
+        String token = jwt_token.replace("Bearer ", "");
         return Long.parseLong(jwtUtil.extractClaim(token, claim -> claim.get("id")).toString());
     }
 
@@ -64,7 +66,7 @@ public class GameManagementController {
             @PathVariable Long quest_id
     ) {
         Long userId = 0L;
-        if (jwt_token != null && jwt_token.startsWith("Token")) {
+        if (jwt_token != null && jwt_token.startsWith("Bearer")) {
             userId = getUserIdFromToken(jwt_token);
         }
 
@@ -156,8 +158,8 @@ public class GameManagementController {
     ) {
 
         String userEmail = null;
-        if (jwt_token != null && jwt_token.startsWith("Token")) {
-            userEmail = jwtUtil.extractUsername(jwt_token.replace("Token:", ""));
+        if (jwt_token != null && jwt_token.startsWith("Bearer")) {
+            userEmail = jwtUtil.extractUsername(jwt_token.replace("Bearer ", ""));
         }
 
         List<Progress> progresses = progressService.getByGameId(game_id);

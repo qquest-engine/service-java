@@ -15,13 +15,11 @@ import java.util.List;
 @Transactional
 public class QuestServiceImpl implements QuestService {
 
-    private final QuestDAO questDAO;
-    private final UserDAO userDAO;
+    private QuestDAO questDAO;
 
     @Autowired
     public QuestServiceImpl(QuestDAO questDAO, UserDAO userDAO) {
         this.questDAO = questDAO;
-        this.userDAO = userDAO;
     }
 
     @Override
@@ -35,16 +33,13 @@ public class QuestServiceImpl implements QuestService {
     }
 
     @Override
-    public void createQuestByUser(Long userId, Quest quest) {
-        User user = userDAO.getById(userId);
-        user.getQuests().add(quest);
-        quest.setUser(user);
-        this.userDAO.save(user);
+    public List<Quest> getPublic() {
+        return this.questDAO.getPublic();
     }
 
     @Override
-    public void save(Quest quest) {
-        this.questDAO.save(quest);
+    public Quest save(Quest quest) {
+        return this.questDAO.save(quest);
     }
 
     @Override

@@ -15,6 +15,8 @@ import javax.validation.constraints.NotNull;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class QuestDto {
 
+    private Long id;
+
     @NotNull(message = "Name is required")
     private String name;
 
@@ -24,11 +26,14 @@ public class QuestDto {
     @NotNull(message = "Type is required")
     private Type type;
 
-    private Integer difficulty;
+    @NotNull(message = "Access Time is required")
+    private Long accessTime;
 
     @NotNull(message = "IsPublic is required")
     private Boolean isPublic;
 
     @NotNull(message = "Image Link is required")
     private String imageLink;
+
+    private Long author;
 }

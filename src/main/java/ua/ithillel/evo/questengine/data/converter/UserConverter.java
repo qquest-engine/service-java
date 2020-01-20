@@ -15,6 +15,8 @@ public class UserConverter {
 
     public static UserDto convertFromEntity(User user) {
         return UserDto.builder()
+                .id(user.getId())
+                .userName(user.getUserName())
                 .email(user.getEmail())
                 .role(user.getRole())
                 .build();

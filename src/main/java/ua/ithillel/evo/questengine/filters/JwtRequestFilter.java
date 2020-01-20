@@ -20,8 +20,8 @@ import java.io.IOException;
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
 
-    private final JwtUtil jwtUtil;
-    private final MyUserDetailsService userDetailsService;
+    private JwtUtil jwtUtil;
+    private MyUserDetailsService userDetailsService;
 
     @Autowired
     public JwtRequestFilter(JwtUtil jwtUtil, @Lazy MyUserDetailsService myUserDetailsService) {
@@ -38,8 +38,8 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         String username = null;
         String jwt = null;
 
-        if (authorizationHeader != null && authorizationHeader.startsWith("Token")) {
-            jwt = authorizationHeader.replace("Token:", "");
+        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+            jwt = authorizationHeader.replace("Bearer ", "");
             username = jwtUtil.extractUsername(jwt);
         }
 
