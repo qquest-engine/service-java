@@ -62,19 +62,18 @@ public class QuestController {
         }
     }
 
+    @CrossOrigin(origins = "http://localhost:3001")
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<QuestDto>> getAll(HttpServletResponse response) {
         List<QuestDto> questsDto = questService.getPublic().stream().map(
                 QuestConverter::convertFromEntity
         ).collect(Collectors.toList());
-        response.setHeader("Access-Control-Allow-Origin", "*");
         return new ResponseEntity<>(questsDto, HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.OPTIONS)
     public ResponseEntity<Void> options(HttpServletResponse response) {
         response.setHeader("Allow", "HEAD,GET,PUT,OPTIONS");
-        response.setHeader("Access-Control-Allow-Origin", "*");
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
