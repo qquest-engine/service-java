@@ -17,7 +17,6 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@CrossOrigin(origins = "http://localhost:3001", maxAge = 3600)
 @RestController
 @RequestMapping("/quests")
 public class QuestController {
