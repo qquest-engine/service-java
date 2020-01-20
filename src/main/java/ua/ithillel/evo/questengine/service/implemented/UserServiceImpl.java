@@ -10,7 +10,6 @@ import ua.ithillel.evo.questengine.data.entity.User;
 import ua.ithillel.evo.questengine.service.UserService;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional
