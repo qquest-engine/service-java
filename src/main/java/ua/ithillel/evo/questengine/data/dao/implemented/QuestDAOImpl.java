@@ -36,6 +36,11 @@ public class QuestDAOImpl implements QuestDAO {
     }
 
     @Override
+    public List<Quest> getQuestsByUserId(Long userId) {
+        return this.questRepository.getQuestsByUserIdOrderByIdAsc(userId);
+    }
+
+    @Override
     public Quest save(Quest quest) {
         return questRepository.save(quest);
     }

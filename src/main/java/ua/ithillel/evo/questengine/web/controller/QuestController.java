@@ -71,7 +71,19 @@ public class QuestController {
     public ResponseEntity<QuestDto> getById(@PathVariable Long id) {
         Quest quest = questService.getById(id);
         if (quest != null) {
-            return new ResponseEntity<QuestDto>(QuestConverter.convertFromEntity(quest), HttpStatus.OK);
+            return new ResponseEntity<>(QuestConverter.convertFromEntity(quest), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping(value = "/user/{user_id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<QuestDto>> getQuestsByUserId(@PathVariable Long user_id) {
+        List<Quest> quests = questService.getQuestsByUserId(user_id);
+        if (quests.size() > 0) {
+            return new ResponseEntity<>(
+                    quests.stream().map(QuestConverter::convertFromEntity).collect(Collectors.toList()), HttpStatus.OK
+            );
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

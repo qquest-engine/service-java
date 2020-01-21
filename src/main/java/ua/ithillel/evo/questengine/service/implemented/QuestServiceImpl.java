@@ -38,6 +38,11 @@ public class QuestServiceImpl implements QuestService {
     }
 
     @Override
+    public List<Quest> getQuestsByUserId(Long userId) {
+        return this.questDAO.getQuestsByUserId(userId);
+    }
+
+    @Override
     public Quest save(Quest quest) {
         return this.questDAO.save(quest);
     }

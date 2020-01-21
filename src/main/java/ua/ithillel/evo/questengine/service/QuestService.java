@@ -13,6 +13,8 @@ public interface QuestService {
 
     List<Quest> getPublic();
 
+    List<Quest> getQuestsByUserId(Long userId);
+
     Quest save(Quest quest);
 
     void deleteById(Long id);
