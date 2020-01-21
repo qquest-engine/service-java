@@ -27,6 +27,7 @@ public class AuthenticationController {
             JwtUtil jwtTokenUtil,
             MyUserDetailsService userDetailsService
     ) {
+
         this.authenticationManager = authenticationManager;
         this.jwtTokenUtil = jwtTokenUtil;
         this.userDetailsService = userDetailsService;
@@ -34,7 +35,6 @@ public class AuthenticationController {
 
     @PostMapping(value = "/auth")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
-
         try {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(authenticationRequest.getEmail(), authenticationRequest.getPassword())
