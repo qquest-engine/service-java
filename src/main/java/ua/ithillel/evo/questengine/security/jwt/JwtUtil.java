@@ -5,7 +5,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
-import ua.ithillel.evo.questengine.data.entity.User;
+import ua.ithillel.evo.questengine.data.entity.AppUser;
 import ua.ithillel.evo.questengine.service.UserService;
 
 import java.util.Date;
@@ -46,8 +46,8 @@ public class JwtUtil {
 
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
-        User user = userService.getByEmail(userDetails.getUsername());
-        claims.put("id", user.getId());
+        AppUser appUser = userService.getByEmail(userDetails.getUsername());
+        claims.put("id", appUser.getId());
         return createToken(claims, userDetails.getUsername());
     }
 
