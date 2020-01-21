@@ -50,5 +50,5 @@ public class Quest {
     @ManyToOne(optional = false)
     @JoinColumn(name = "user_id")
     @JsonIgnore
-    private User user;
+    private AppUser appUser;
 }

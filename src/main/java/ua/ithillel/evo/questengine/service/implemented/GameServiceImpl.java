@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ua.ithillel.evo.questengine.data.dao.GameDAO;
 import ua.ithillel.evo.questengine.data.dao.UserDAO;
 import ua.ithillel.evo.questengine.data.entity.Game;
-import ua.ithillel.evo.questengine.data.entity.User;
+import ua.ithillel.evo.questengine.data.entity.AppUser;
 import ua.ithillel.evo.questengine.service.GameService;
 
 import java.util.List;
@@ -41,10 +41,10 @@ public class GameServiceImpl implements GameService {
 
     @Override
     public void createGameForUser(Long userId, Game game) {
-        User user = userDAO.getById(userId);
-        user.getGames().add(game);
-        game.setUser(user);
-        userDAO.save(user);
+        AppUser appUser = userDAO.getById(userId);
+        appUser.getGames().add(game);
+        game.setAppUser(appUser);
+        userDAO.save(appUser);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package ua.ithillel.evo.questengine.web.controller;
 
+import com.auth0.jwt.JWT;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -10,7 +11,7 @@ import ua.ithillel.evo.questengine.data.dto.QuestDto;
 import ua.ithillel.evo.questengine.data.entity.Quest;
 import ua.ithillel.evo.questengine.service.QuestService;
 import ua.ithillel.evo.questengine.service.UserService;
-import ua.ithillel.evo.questengine.util.JwtUtil;
+//import ua.ithillel.evo.questengine.security.jwt.JwtUtil;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -23,18 +24,19 @@ public class QuestController {
 
     private QuestService questService;
     private UserService userService;
-    private JwtUtil jwtUtil;
+//    private JwtUtil jwtUtil;
 
     @Autowired
-    public QuestController(QuestService questService, JwtUtil jwtUtil, UserService userService) {
+    public QuestController(QuestService questService, /*JwtUtil jwtUtil,*/ UserService userService) {
         this.questService = questService;
-        this.jwtUtil = jwtUtil;
+//        this.jwtUtil = jwtUtil;
         this.userService = userService;
     }
 
     private Long getUserIdFromToken(String jwt_token) {
         String token = jwt_token.replace("Bearer ", "");
-        return Long.parseLong(jwtUtil.extractClaim(token, claim -> claim.get("id")).toString());
+//        return Long.parseLong(jwtUtil.extractClaim(token, claim -> claim.get("id")).toString());
+        return JWT.decode(jwt_token).getClaim("id").asLong();
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
@@ -62,7 +64,7 @@ public class QuestController {
             userId = getUserIdFromToken(jwt_token);
         }
         Quest quest = QuestConverter.convertFromDto(questDto);
-        quest.setUser(userService.getById(userId));
+        quest.setAppUser(userService.getById(userId));
         Quest savedQuest = questService.save(quest);
         return new ResponseEntity<>(savedQuest.getId(), HttpStatus.CREATED);
     }

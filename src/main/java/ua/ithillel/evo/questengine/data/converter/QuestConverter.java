@@ -25,7 +25,7 @@ public class QuestConverter {
                 .isPublic(quest.getIsPublic())
                 .accessTime(quest.getAccessTime())
                 .imageLink(quest.getImageLink())
-                .author(quest.getUser().getId())
+                .author(quest.getAppUser().getId())
                 .build();
     }
 }

@@ -6,7 +6,6 @@ import org.springframework.transaction.annotation.Transactional;
 import ua.ithillel.evo.questengine.data.dao.QuestDAO;
 import ua.ithillel.evo.questengine.data.dao.UserDAO;
 import ua.ithillel.evo.questengine.data.entity.Quest;
-import ua.ithillel.evo.questengine.data.entity.User;
 import ua.ithillel.evo.questengine.service.QuestService;
 
 import java.util.List;

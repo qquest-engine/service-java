@@ -15,55 +15,56 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import ua.ithillel.evo.questengine.filters.JwtRequestFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+//import ua.ithillel.evo.questengine.filters.JwtRequestFilter;
+import ua.ithillel.evo.questengine.security.JwtUserDetailsService;
+import ua.ithillel.evo.questengine.security.jwt.JWTAuthenticationFilter;
+import ua.ithillel.evo.questengine.security.jwt.JWTAuthorizationFilter;
+
+import static ua.ithillel.evo.questengine.security.SecurityConstants.SIGN_UP_URL;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final UserDetailsService myUserDetailsService;
-    private final JwtRequestFilter jwtRequestFilter;
-    private final PasswordEncoder passwordEncoder;
+    private JwtUserDetailsService userDetailsService;
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
+    public WebSecurityConfig(JwtUserDetailsService userDetailsService, @Lazy BCryptPasswordEncoder bCryptPasswordEncoder) {
+        this.userDetailsService = userDetailsService;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+    }
 
-    @Autowired
-    public WebSecurityConfig(@Lazy UserDetailsService myUserDetailsService, @Lazy JwtRequestFilter jwtRequestFilter, @Lazy PasswordEncoder passwordEncoder) {
-        this.myUserDetailsService = myUserDetailsService;
-        this.jwtRequestFilter = jwtRequestFilter;
-        this.passwordEncoder = passwordEncoder;
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.cors().and().csrf().disable().authorizeRequests()
+                .antMatchers(HttpMethod.POST, SIGN_UP_URL).permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .addFilter(new JWTAuthenticationFilter(authenticationManager()))
+                .addFilter(new JWTAuthorizationFilter(authenticationManager()))
+                // this disables session creation on Spring Security
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+    }
+
+    @Override
+    public void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder(8);
+    CorsConfigurationSource corsConfigurationSource() {
+        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
+        return source;
     }
 
-    @Override
     @Bean
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
-    }
+    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+        return new BCryptPasswordEncoder();
 
-    @Override
-    protected void configure(HttpSecurity httpSecurity) throws Exception {
-
-        httpSecurity.csrf().disable()
-                .authorizeRequests()
-                .antMatchers("/auth").permitAll()
-                .antMatchers(HttpMethod.GET, "/quests/**").permitAll()
-                .antMatchers(HttpMethod.OPTIONS, "/quests/**").permitAll()
-                .antMatchers(HttpMethod.POST, "/users").permitAll()
-                .antMatchers("/v2/api-docs", "/configuration/ui", "/swagger-resources/**",
-                        "/configuration/security", "/swagger-ui.html", "/webjars/**").permitAll()
-                .anyRequest().authenticated().and()
-                .exceptionHandling().and().sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-        httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
-    }
-
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(myUserDetailsService).passwordEncoder(passwordEncoder);
     }
 
 }

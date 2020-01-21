@@ -7,7 +7,7 @@ import ua.ithillel.evo.questengine.service.UserService;
 
 
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-class UserControllerIntegrationTest extends ControllerBaseTest {
+class AppUserControllerIntegrationTest extends ControllerBaseTest {
 
     @Autowired
     UserService userService;

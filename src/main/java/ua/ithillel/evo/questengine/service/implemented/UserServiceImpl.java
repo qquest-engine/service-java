@@ -6,7 +6,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.ithillel.evo.questengine.data.dao.UserDAO;
-import ua.ithillel.evo.questengine.data.entity.User;
+import ua.ithillel.evo.questengine.data.entity.AppUser;
 import ua.ithillel.evo.questengine.service.UserService;
 
 import java.util.List;
@@ -25,37 +25,37 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getByEmailAndPassword(String email, String password) {
+    public AppUser getByEmailAndPassword(String email, String password) {
         return this.userDAO.getByEmailAndPassword(email, password);
     }
 
     @Override
-    public User getByEmail(String email) {
+    public AppUser getByEmail(String email) {
         return this.userDAO.getByEmail(email);
     }
 
     @Override
-    public User getById(Long id) {
+    public AppUser getById(Long id) {
         return this.userDAO.getById(id);
     }
 
     @Override
-    public List<User> getAll() {
+    public List<AppUser> getAll() {
         return this.userDAO.getAll();
     }
 
     @Override
-    public void save(User newUser) throws Exception {
-        if (newUser.getId() != null) {
-            newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
-            this.userDAO.save(newUser);
+    public void save(AppUser newAppUser) throws Exception {
+        if (newAppUser.getId() != null) {
+            newAppUser.setPassword(passwordEncoder.encode(newAppUser.getPassword()));
+            this.userDAO.save(newAppUser);
         } else {
-            User userFromDb = getByEmail(newUser.getEmail());
-            if (userFromDb != null) {
+            AppUser appUserFromDb = getByEmail(newAppUser.getEmail());
+            if (appUserFromDb != null) {
                 throw new Exception("Email already exist!");
             }
-            newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
-            this.userDAO.save(newUser);
+            newAppUser.setPassword(passwordEncoder.encode(newAppUser.getPassword()));
+            this.userDAO.save(newAppUser);
         }
     }
 

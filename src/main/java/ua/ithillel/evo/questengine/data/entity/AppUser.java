@@ -14,8 +14,8 @@ import java.util.List;
 @Data
 @Builder
 @Entity
-@Table(name = "app_user")
-public class User {
+//@Table(name = "app_user")
+public class AppUser {
 
     @Id
     @GeneratedValue(generator = "increment")
@@ -23,24 +23,24 @@ public class User {
     @Setter(AccessLevel.NONE)
     private Long id;
 
-    @Column(name = "user_name", unique = true)
+    @Column(unique = true)
     private String userName;
 
-    @Column(name = "email", unique = true)
+    @Column(/*name = "email",*/ unique = true)
     private String email;
 
-    @Column(name = "password")
+//    @Column(name = "password")
     private String password;
 
-    @Column(name = "role")
+//    @Column(name = "role")
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "appUser", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Quest> quests = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "appUser", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Game> games = new ArrayList<>();
 }

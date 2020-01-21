@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import ua.ithillel.evo.questengine.data.entity.AppUser;
 import ua.ithillel.evo.questengine.service.UserService;
 
 import java.util.ArrayList;
@@ -22,7 +23,7 @@ public class MyUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-        ua.ithillel.evo.questengine.data.entity.User user = userService.getByEmail(userName);
-        return new User(user.getEmail(), user.getPassword(), new ArrayList<>());
+        AppUser appUser = userService.getByEmail(userName);
+        return new User(appUser.getEmail(), appUser.getPassword(), new ArrayList<>());
     }
 }

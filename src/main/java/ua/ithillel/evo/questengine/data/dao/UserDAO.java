@@ -1,21 +1,20 @@
 package ua.ithillel.evo.questengine.data.dao;
 
-import ua.ithillel.evo.questengine.data.entity.User;
+import ua.ithillel.evo.questengine.data.entity.AppUser;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface UserDAO {
 
-    User getByEmailAndPassword(String email, String password);
+    AppUser getByEmailAndPassword(String email, String password);
 
-    User getByEmail(String email);
+    AppUser getByEmail(String email);
 
-    User getById(Long id);
+    AppUser getById(Long id);
 
-    List<User> getAll();
+    List<AppUser> getAll();
 
-    void save(User user);
+    void save(AppUser appUser);
 
     void deleteById(Long id);
 

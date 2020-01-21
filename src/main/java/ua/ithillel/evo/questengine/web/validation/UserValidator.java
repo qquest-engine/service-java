@@ -1,7 +1,7 @@
 package ua.ithillel.evo.questengine.web.validation;
 
 import org.springframework.util.StringUtils;
-import ua.ithillel.evo.questengine.data.entity.User;
+import ua.ithillel.evo.questengine.data.entity.AppUser;
 import ua.ithillel.evo.questengine.exception.UserValidationException;
 
 import java.util.regex.Matcher;
@@ -13,9 +13,9 @@ public class UserValidator {
     private static final String REGEX_EXCEPTION_MESSAGE = "User field parameter '%s' not correct. '%s' ";
     private static String VALID_EMAIL_REGEX = "^[\\w!#$%&’*+/=?`{|}~^-]+(?:\\.[\\w!#$%&’*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
 
-    public static void validate(User user) throws UserValidationException {
-        validateWithRegularExpression(user.getEmail(), VALID_EMAIL_REGEX, "email", "Email address not correct.");
-        validateNotEmptyProperty(user.getEmail(), "email");
+    public static void validate(AppUser appUser) throws UserValidationException {
+        validateWithRegularExpression(appUser.getEmail(), VALID_EMAIL_REGEX, "email", "Email address not correct.");
+        validateNotEmptyProperty(appUser.getEmail(), "email");
     }
 
     private static void validateNotEmptyProperty(Object value, String propertyName) throws UserValidationException {

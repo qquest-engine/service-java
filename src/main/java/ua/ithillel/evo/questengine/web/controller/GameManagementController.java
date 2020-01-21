@@ -1,6 +1,7 @@
 package ua.ithillel.evo.questengine.web.controller;
 
 
+import com.auth0.jwt.JWT;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ import ua.ithillel.evo.questengine.service.GameService;
 import ua.ithillel.evo.questengine.service.HintService;
 import ua.ithillel.evo.questengine.service.ProgressService;
 import ua.ithillel.evo.questengine.service.QuestionService;
-import ua.ithillel.evo.questengine.util.JwtUtil;
+//import ua.ithillel.evo.questengine.security.jwt.JwtUtil;
 
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -37,26 +38,27 @@ public class GameManagementController {
     private ProgressService progressService;
     private GameService gameService;
     private HintService hintService;
-    private JwtUtil jwtUtil;
+//    private JwtUtil jwtUtil;
 
     @Autowired
     public GameManagementController(
             QuestionService questionService,
             ProgressService progressService,
             GameService gameService,
-            HintService hintService,
-            JwtUtil jwtUtil
+            HintService hintService
+//            JwtUtil jwtUtil
     ) {
         this.questionService = questionService;
         this.progressService = progressService;
         this.gameService = gameService;
         this.hintService = hintService;
-        this.jwtUtil = jwtUtil;
+//        this.jwtUtil = jwtUtil;
     }
 
     private Long getUserIdFromToken(String jwt_token) {
-        String token = jwt_token.replace("Bearer ", "");
-        return Long.parseLong(jwtUtil.extractClaim(token, claim -> claim.get("id")).toString());
+//        String token = jwt_token.replace("Bearer ", "");
+//        return Long.parseLong(jwtUtil.extractClaim(token, claim -> claim.get("id")).toString());
+        return JWT.decode(jwt_token).getClaim("id").asLong();
     }
 
     @GetMapping(value = "/game/{game_id}/quest/{quest_id}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -159,7 +161,8 @@ public class GameManagementController {
 
         String userEmail = null;
         if (jwt_token != null && jwt_token.startsWith("Bearer")) {
-            userEmail = jwtUtil.extractUsername(jwt_token.replace("Bearer ", ""));
+//            userEmail = jwtUtil.extractUsername(jwt_token.replace("Bearer ", ""));
+            userEmail = JWT.decode(jwt_token).getSubject();
         }
 
         List<Progress> progresses = progressService.getByGameId(game_id);
@@ -168,7 +171,7 @@ public class GameManagementController {
         if (userEmail != null) {
             String finalUserEmail = userEmail;
             Optional<Progress> optionalProgress = progresses.stream()
-                    .filter(p -> p.getGame().getUser().getEmail().equals(finalUserEmail))
+                    .filter(p -> p.getGame().getAppUser().getEmail().equals(finalUserEmail))
                     .findFirst();
             if (optionalProgress.isPresent()) {
                 gameIsExists = true;

@@ -1,24 +1,24 @@
 package ua.ithillel.evo.questengine.data.converter;
 
 import ua.ithillel.evo.questengine.data.dto.UserDto;
-import ua.ithillel.evo.questengine.data.entity.User;
+import ua.ithillel.evo.questengine.data.entity.AppUser;
 
 public class UserConverter {
 
-    public static User convertFromDto(UserDto userDto) {
-        return User.builder()
+    public static AppUser convertFromDto(UserDto userDto) {
+        return AppUser.builder()
                 .email(userDto.getEmail())
                 .password(userDto.getPassword())
                 .role(userDto.getRole())
                 .build();
     }
 
-    public static UserDto convertFromEntity(User user) {
+    public static UserDto convertFromEntity(AppUser appUser) {
         return UserDto.builder()
-                .id(user.getId())
-                .userName(user.getUserName())
-                .email(user.getEmail())
-                .role(user.getRole())
+                .id(appUser.getId())
+                .userName(appUser.getUserName())
+                .email(appUser.getEmail())
+                .role(appUser.getRole())
                 .build();
     }
 }

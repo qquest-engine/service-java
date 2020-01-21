@@ -1,13 +1,13 @@
 package ua.ithillel.evo.questengine.web.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import ua.ithillel.evo.questengine.data.converter.UserConverter;
 import ua.ithillel.evo.questengine.data.dto.UserDto;
-import ua.ithillel.evo.questengine.data.entity.User;
+import ua.ithillel.evo.questengine.data.entity.AppUser;
 import ua.ithillel.evo.questengine.service.UserService;
 import ua.ithillel.evo.questengine.web.validation.UserValidator;
 
@@ -20,29 +20,25 @@ import java.util.stream.Collectors;
 public class UserController {
 
     private UserService userService;
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userService = userService;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping("/register")
     public ResponseEntity<Void> create(@Valid @RequestBody UserDto userDto) throws Exception {
-        User user = userService.getByEmail(userDto.getEmail());
-        if (user == null) {
-            UserValidator.validate(UserConverter.convertFromDto(userDto));
-            userService.save(UserConverter.convertFromDto(userDto));
-            return new ResponseEntity<>(HttpStatus.CREATED);
-        } else {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+        userDto.setPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
+        userService.save(UserConverter.convertFromDto(userDto));
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserDto> getById(@PathVariable Long id) {
-        User user = userService.getById(id);
-        if (user != null) {
-            return new ResponseEntity<>(UserConverter.convertFromEntity(user), HttpStatus.OK);
+        AppUser appUser = userService.getById(id);
+        if (appUser != null) {
+            return new ResponseEntity<>(UserConverter.convertFromEntity(appUser), HttpStatus.OK);
         } else
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
@@ -58,14 +54,14 @@ public class UserController {
 
     @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> update(@Valid @RequestBody UserDto userDto, @PathVariable Long id) throws Exception {
-        User user = userService.getById(id);
-        User newUser = UserConverter.convertFromDto(userDto);
-        if (user != null) {
-            user.setEmail(newUser.getEmail());
-            user.setPassword(newUser.getPassword());
-            user.setRole(newUser.getRole());
-            UserValidator.validate(user);
-            userService.save(user);
+        AppUser appUser = userService.getById(id);
+        AppUser newAppUser = UserConverter.convertFromDto(userDto);
+        if (appUser != null) {
+            appUser.setEmail(newAppUser.getEmail());
+            appUser.setPassword(newAppUser.getPassword());
+            appUser.setRole(newAppUser.getRole());
+            UserValidator.validate(appUser);
+            userService.save(appUser);
             return new ResponseEntity<>(HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

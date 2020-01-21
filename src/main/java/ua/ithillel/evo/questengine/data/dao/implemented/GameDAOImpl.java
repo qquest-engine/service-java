@@ -25,7 +25,7 @@ public class GameDAOImpl implements GameDAO {
 
     @Override
     public List<Game> getGamesByUserId(Long userId) {
-        return this.gameRepository.getGamesByUserId(userId);
+        return this.gameRepository.getGamesByAppUserId(userId);
     }
 
     @Override

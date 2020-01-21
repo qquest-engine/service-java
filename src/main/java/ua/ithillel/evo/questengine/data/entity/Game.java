@@ -26,7 +26,7 @@ public class Game {
     @ManyToOne(optional = false)
     @JoinColumn(name = "user_id")
     @JsonIgnore
-    private User user;
+    private AppUser appUser;
 
     @OneToMany(mappedBy = "game", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonIgnore

@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface GameRepository extends CrudRepository<Game, Long> {
-    List<Game> getGamesByUserId(Long userId);
+    List<Game> getGamesByAppUserId(Long userId);
 }
