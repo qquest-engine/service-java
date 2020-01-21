@@ -7,11 +7,15 @@ import java.util.Optional;
 
 public interface QuestDAO {
 
-    Optional<Quest> getById(Long id);
+    Quest getById(Long id);
 
     List<Quest> getAll();
 
-    void save(Quest quest);
+    List<Quest> getPublic();
+
+    List<Quest> getQuestsByUserId(Long userId);
+
+    Quest save(Quest quest);
 
     void deleteById(Long id);
 }

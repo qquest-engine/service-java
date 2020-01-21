@@ -1,39 +1,41 @@
 package ua.ithillel.evo.questengine.service.implemented;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ua.ithillel.evo.questengine.data.converter.UserConverter;
 import ua.ithillel.evo.questengine.data.dao.UserDAO;
-import ua.ithillel.evo.questengine.data.dto.UserDto;
 import ua.ithillel.evo.questengine.data.entity.User;
 import ua.ithillel.evo.questengine.service.UserService;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional
 public class UserServiceImpl implements UserService {
 
-    private final UserDAO userDAO;
+    private UserDAO userDAO;
+    private PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserDAO userDAO) {
+    @Autowired
+    public UserServiceImpl(UserDAO userDAO, PasswordEncoder passwordEncoder) {
         this.userDAO = userDAO;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
-    public Optional<User> getByEmailAndPassword(String email, String password) {
+    public User getByEmailAndPassword(String email, String password) {
         return this.userDAO.getByEmailAndPassword(email, password);
     }
 
     @Override
-    public Optional<User> getByEmail(String email) {
+    public User getByEmail(String email) {
         return this.userDAO.getByEmail(email);
     }
 
     @Override
-    public Optional<User> getById(Long id) {
+    public User getById(Long id) {
         return this.userDAO.getById(id);
     }
 
@@ -43,8 +45,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void save(User user) {
-        this.userDAO.save(user);
+    public void save(User newUser) throws Exception {
+        if (newUser.getId() != null) {
+            newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
+            this.userDAO.save(newUser);
+        } else {
+            User userFromDb = getByEmail(newUser.getEmail());
+            if (userFromDb != null) {
+                throw new Exception("Email already exist!");
+            }
+            newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
+            this.userDAO.save(newUser);
+        }
     }
 
     @Override

@@ -3,7 +3,6 @@ package ua.ithillel.evo.questengine.data.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
-import ua.ithillel.evo.questengine.data.entity.Hint;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;

@@ -7,7 +7,6 @@ import ua.ithillel.evo.questengine.data.entity.Game;
 import ua.ithillel.evo.questengine.data.repository.GameRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Component
 public class GameDAOImpl implements GameDAO {
@@ -20,22 +19,27 @@ public class GameDAOImpl implements GameDAO {
     }
 
     @Override
-    public Optional<Game> getById(Long id) {
-        return gameRepository.findById(id);
+    public Game getById(Long id) {
+        return this.gameRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public List<Game> getGamesByUserId(Long userId) {
+        return this.gameRepository.getGamesByUserId(userId);
     }
 
     @Override
     public List<Game> getAll() {
-        return (List<Game>) gameRepository.findAll();
+        return (List<Game>) this.gameRepository.findAll();
     }
 
     @Override
     public void save(Game game) {
-        gameRepository.save(game);
+        this.gameRepository.save(game);
     }
 
     @Override
     public void deleteById(Long id) {
-        gameRepository.deleteById(id);
+        this.gameRepository.deleteById(id);
     }
 }

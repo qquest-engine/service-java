@@ -11,9 +11,6 @@ import ua.ithillel.evo.questengine.data.entity.Question;
 import ua.ithillel.evo.questengine.service.QuestionService;
 
 import javax.validation.Valid;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/questions")
@@ -33,13 +30,13 @@ public class QuestionController {
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Optional<Question>> getById(@PathVariable Long id) {
+    public ResponseEntity<Question> getById(@PathVariable Long id) {
         return new ResponseEntity<>(questionService.getById(id), HttpStatus.OK);
     }
 
     @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> updateQuestion(@Valid @RequestBody QuestionDto questionDto, @PathVariable Long id) {
-        Question question = questionService.getById(id).orElse(null);
+        Question question = questionService.getById(id);
         Question newQuestion = QuestionConverter.convertFromDto(questionDto);
         if (question != null) {
             question.setText(newQuestion.getText());

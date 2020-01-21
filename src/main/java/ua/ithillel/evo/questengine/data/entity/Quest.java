@@ -33,8 +33,8 @@ public class Quest {
     @Enumerated(EnumType.STRING)
     private Type type;
 
-    @Column(name = "difficulty")
-    private Integer difficulty;
+    @Column(name = "access_time")
+    private Long accessTime;
 
     @Column(name = "is_public")
     private Boolean isPublic;

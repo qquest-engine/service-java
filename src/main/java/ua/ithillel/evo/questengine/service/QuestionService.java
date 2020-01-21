@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface QuestionService {
 
-    Optional<Question> getById(Long id);
+    Question getById(Long id);
 
     List<Question> getAllByQuestId(Long questId);
 

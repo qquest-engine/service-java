@@ -1,6 +1,7 @@
 package ua.ithillel.evo.questengine.filters;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,13 +20,14 @@ import java.io.IOException;
 @Component
 public class JwtRequestFilter extends OncePerRequestFilter {
 
-    private final MyUserDetailsService userDetailsService;
-    private final JwtUtil jwtUtil;
+    private JwtUtil jwtUtil;
+    private MyUserDetailsService userDetailsService;
 
     @Autowired
-    public JwtRequestFilter(MyUserDetailsService userDetailsService, JwtUtil jwtUtil) {
-        this.userDetailsService = userDetailsService;
+    public JwtRequestFilter(JwtUtil jwtUtil, @Lazy MyUserDetailsService myUserDetailsService) {
         this.jwtUtil = jwtUtil;
+        this.userDetailsService = myUserDetailsService;
+
     }
 
     @Override
@@ -38,7 +40,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         String jwt = null;
 
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
-            jwt = authorizationHeader.substring(7);
+            jwt = authorizationHeader.replace("Bearer ", "");
             username = jwtUtil.extractUsername(jwt);
         }
 

@@ -23,6 +23,9 @@ public class User {
     @Setter(AccessLevel.NONE)
     private Long id;
 
+    @Column(name = "user_name", unique = true)
+    private String userName;
+
     @Column(name = "email", unique = true)
     private String email;
 

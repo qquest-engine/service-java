@@ -21,8 +21,8 @@ public class QuestDAOImpl implements QuestDAO {
     }
 
     @Override
-    public Optional<Quest> getById(Long id) {
-        return questRepository.findById(id);
+    public Quest getById(Long id) {
+        return questRepository.findById(id).orElse(null);
     }
 
     @Override
@@ -31,8 +31,18 @@ public class QuestDAOImpl implements QuestDAO {
     }
 
     @Override
-    public void save(Quest quest) {
-        questRepository.save(quest);
+    public List<Quest> getPublic() {
+        return this.questRepository.getQuestsByIsPublicTrueOrderByAccessTimeDesc();
+    }
+
+    @Override
+    public List<Quest> getQuestsByUserId(Long userId) {
+        return this.questRepository.getQuestsByUserIdOrderByIdAsc(userId);
+    }
+
+    @Override
+    public Quest save(Quest quest) {
+        return questRepository.save(quest);
     }
 
     @Override
