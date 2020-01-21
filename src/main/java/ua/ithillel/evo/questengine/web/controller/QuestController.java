@@ -37,6 +37,21 @@ public class QuestController {
         return Long.parseLong(jwtUtil.extractClaim(token, claim -> claim.get("id")).toString());
     }
 
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<QuestDto>> getAll(HttpServletResponse response) {
+        List<QuestDto> questsDto = questService.getPublic().stream().map(
+                QuestConverter::convertFromEntity
+        ).collect(Collectors.toList());
+        return new ResponseEntity<>(questsDto, HttpStatus.OK);
+    }
+
+    //    open method OPTIONS to endpoint /quests
+    @RequestMapping(method = RequestMethod.OPTIONS)
+    public ResponseEntity<Void> optionsToQuests(HttpServletResponse response) {
+        response.setHeader("Allow", "HEAD,GET,PUT,OPTIONS");
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Long> create(
             @Valid @RequestBody QuestDto questDto,
@@ -62,20 +77,6 @@ public class QuestController {
         }
     }
 
-    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<QuestDto>> getAll(HttpServletResponse response) {
-        List<QuestDto> questsDto = questService.getPublic().stream().map(
-                QuestConverter::convertFromEntity
-        ).collect(Collectors.toList());
-        return new ResponseEntity<>(questsDto, HttpStatus.OK);
-    }
-
-    @RequestMapping(method = RequestMethod.OPTIONS)
-    public ResponseEntity<Void> options(HttpServletResponse response) {
-        response.setHeader("Allow", "HEAD,GET,PUT,OPTIONS");
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
     @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> updateQuest(@Valid @RequestBody QuestDto questDto, @PathVariable Long id) {
         Quest quest = questService.getById(id);
@@ -83,6 +84,7 @@ public class QuestController {
         if (quest != null) {
             quest.setName(newQuest.getName());
             quest.setDescription(newQuest.getDescription());
+            quest.setImageLink(questDto.getImageLink());
             quest.setType(newQuest.getType());
             quest.setAccessTime(newQuest.getAccessTime());
             quest.setIsPublic(newQuest.getIsPublic());
