@@ -5,9 +5,9 @@ import org.springframework.stereotype.Component;
 import ua.ithillel.evo.questengine.data.dao.QuestionDAO;
 import ua.ithillel.evo.questengine.data.entity.Question;
 import ua.ithillel.evo.questengine.data.repository.QuestionRepository;
+import ua.ithillel.evo.questengine.exception.NotFoundException;
 
 import java.util.List;
-import java.util.Optional;
 
 @Component
 public class QuestionDAOImpl implements QuestionDAO {
@@ -21,7 +21,8 @@ public class QuestionDAOImpl implements QuestionDAO {
 
     @Override
     public Question getById(Long id) {
-        return questionRepository.findById(id).orElse(null);
+        return questionRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("There is no Question with id " + id));
     }
 
     @Override

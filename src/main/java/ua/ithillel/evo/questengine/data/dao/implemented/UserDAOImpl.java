@@ -6,9 +6,9 @@ import org.springframework.stereotype.Component;
 import ua.ithillel.evo.questengine.data.dao.UserDAO;
 import ua.ithillel.evo.questengine.data.entity.User;
 import ua.ithillel.evo.questengine.data.repository.UserRepository;
+import ua.ithillel.evo.questengine.exception.NotFoundException;
 
 import java.util.List;
-import java.util.Optional;
 
 @Component
 public class UserDAOImpl implements UserDAO {
@@ -22,17 +22,20 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public User getByEmailAndPassword(String email, String password) {
-        return this.userRepository.findUserByEmailAndPassword(email, password).orElse(null);
+        return this.userRepository.findUserByEmailAndPassword(email, password)
+                .orElseThrow(() -> new NotFoundException("Wrong credentials. Please check username and password"));
     }
 
     @Override
     public User getByEmail(String email) {
-        return this.userRepository.findUserByEmail(email).orElse(null);
+        return this.userRepository.findUserByEmail(email)
+                .orElseThrow(() -> new NotFoundException("There is no User with email " + email));
     }
 
     @Override
     public User getById(Long id) {
-        return this.userRepository.findById(id).orElse(null);
+        return this.userRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("There is no User with id " + id));
     }
 
     @Override

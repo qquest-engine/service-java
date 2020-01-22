@@ -6,9 +6,9 @@ import org.springframework.stereotype.Component;
 import ua.ithillel.evo.questengine.data.dao.QuestDAO;
 import ua.ithillel.evo.questengine.data.entity.Quest;
 import ua.ithillel.evo.questengine.data.repository.QuestRepository;
+import ua.ithillel.evo.questengine.exception.NotFoundException;
 
 import java.util.List;
-import java.util.Optional;
 
 @Component
 public class QuestDAOImpl implements QuestDAO {
@@ -22,7 +22,8 @@ public class QuestDAOImpl implements QuestDAO {
 
     @Override
     public Quest getById(Long id) {
-        return questRepository.findById(id).orElse(null);
+        return questRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("There is no Quest with id " + id));
     }
 
     @Override
