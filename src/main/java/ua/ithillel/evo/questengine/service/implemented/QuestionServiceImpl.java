@@ -10,14 +10,13 @@ import ua.ithillel.evo.questengine.data.entity.Question;
 import ua.ithillel.evo.questengine.service.QuestionService;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional
 public class QuestionServiceImpl implements QuestionService {
 
-    private QuestionDAO questionDAO;
-    private QuestDAO questDAO;
+    private final QuestionDAO questionDAO;
+    private final QuestDAO questDAO;
 
     @Autowired
     public QuestionServiceImpl(QuestionDAO questionDAO, QuestDAO questDAO) {

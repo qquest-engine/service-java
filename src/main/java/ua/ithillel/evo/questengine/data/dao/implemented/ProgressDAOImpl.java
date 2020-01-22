@@ -12,7 +12,7 @@ import java.util.Optional;
 @Component
 public class ProgressDAOImpl implements ProgressDAO {
 
-    private ProgressRepository progressRepository;
+    private final ProgressRepository progressRepository;
 
     @Autowired
     public ProgressDAOImpl(ProgressRepository progressRepository) {

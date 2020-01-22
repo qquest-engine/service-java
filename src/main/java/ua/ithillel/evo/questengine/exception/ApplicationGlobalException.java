@@ -10,7 +10,6 @@ import java.util.Optional;
 @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
 public class ApplicationGlobalException extends RuntimeException {
 
-
     public ApplicationGlobalException() {
     }
 

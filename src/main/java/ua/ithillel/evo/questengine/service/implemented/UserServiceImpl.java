@@ -15,8 +15,8 @@ import java.util.List;
 @Transactional
 public class UserServiceImpl implements UserService {
 
-    private UserDAO userDAO;
-    private PasswordEncoder passwordEncoder;
+    private final UserDAO userDAO;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
     public UserServiceImpl(UserDAO userDAO, PasswordEncoder passwordEncoder) {
@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void save(User newUser) throws Exception {
+    public void save(User newUser) {
         newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
         this.userDAO.save(newUser);
     }

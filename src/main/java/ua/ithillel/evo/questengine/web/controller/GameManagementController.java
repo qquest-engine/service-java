@@ -33,11 +33,11 @@ import java.util.stream.Collectors;
 @RequestMapping("/manage")
 public class GameManagementController {
 
-    private QuestionService questionService;
-    private ProgressService progressService;
-    private GameService gameService;
-    private HintService hintService;
-    private JwtUtil jwtUtil;
+    private final QuestionService questionService;
+    private final ProgressService progressService;
+    private final GameService gameService;
+    private final HintService hintService;
+    private final JwtUtil jwtUtil;
 
     @Autowired
     public GameManagementController(
@@ -72,7 +72,7 @@ public class GameManagementController {
 
         List<Question> questions = questionService.getAllByQuestId(quest_id);
         List<Progress> progresses = progressService.getByGameId(game_id);
-        List<Question> questionsInPogress = progresses
+        List<Question> questionsInProgress = progresses
                 .stream()
                 .map(Progress::getQuestion)
                 .collect(Collectors.toList());
@@ -126,7 +126,7 @@ public class GameManagementController {
                     return new ResponseEntity<>(questionDto, HttpStatus.OK);
                 } else {
                     for (Question question : questions) {
-                        if (!questionsInPogress.contains(question)) {
+                        if (!questionsInProgress.contains(question)) {
                             progressService.saveProgressForGame(game_id, Progress.builder()
                                     .game(game)
                                     .question(question)

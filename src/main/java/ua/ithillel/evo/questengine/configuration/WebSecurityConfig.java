@@ -25,7 +25,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final JwtRequestFilter jwtRequestFilter;
     private final PasswordEncoder passwordEncoder;
 
-
     @Autowired
     public WebSecurityConfig(@Lazy UserDetailsService myUserDetailsService, @Lazy JwtRequestFilter jwtRequestFilter, @Lazy PasswordEncoder passwordEncoder) {
         this.myUserDetailsService = myUserDetailsService;

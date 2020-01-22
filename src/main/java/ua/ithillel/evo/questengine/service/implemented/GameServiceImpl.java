@@ -15,8 +15,8 @@ import java.util.List;
 @Transactional
 public class GameServiceImpl implements GameService {
 
-    private GameDAO gameDAO;
-    private UserDAO userDAO;
+    private final GameDAO gameDAO;
+    private final UserDAO userDAO;
 
     @Autowired
     public GameServiceImpl(GameDAO gameDAO, UserDAO userDAO) {

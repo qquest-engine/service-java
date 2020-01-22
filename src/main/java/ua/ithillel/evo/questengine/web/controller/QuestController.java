@@ -21,9 +21,9 @@ import java.util.stream.Collectors;
 @RequestMapping("/quests")
 public class QuestController {
 
-    private QuestService questService;
-    private UserService userService;
-    private JwtUtil jwtUtil;
+    private final QuestService questService;
+    private final UserService userService;
+    private final JwtUtil jwtUtil;
 
     @Autowired
     public QuestController(QuestService questService, JwtUtil jwtUtil, UserService userService) {

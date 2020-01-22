@@ -14,7 +14,7 @@ import java.util.Optional;
 @RequestMapping("/progresses")
 public class ProgressController {
 
-    private ProgressService progressService;
+    private final ProgressService progressService;
 
     @Autowired
     public ProgressController(ProgressService progressService) {

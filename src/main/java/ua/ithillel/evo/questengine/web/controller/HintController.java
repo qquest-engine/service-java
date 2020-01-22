@@ -18,8 +18,8 @@ import java.util.Optional;
 @RequestMapping("/hints")
 public class HintController {
 
-    private HintService hintService;
-    private QuestionService questionService;
+    private final HintService hintService;
+    private final QuestionService questionService;
 
     @Autowired
     public HintController(HintService hintService, QuestionService questionService) {

@@ -12,7 +12,7 @@ import java.util.Optional;
 @Component
 public class HintDAOImpl implements HintDAO {
 
-    private HintRepository hintRepository;
+    private final HintRepository hintRepository;
 
     @Autowired
     public HintDAOImpl(HintRepository hintRepository) {
@@ -26,7 +26,7 @@ public class HintDAOImpl implements HintDAO {
 
     @Override
     public List<Hint> getAll() {
-        return (List<Hint>) hintRepository.findAll();
+        return hintRepository.findAll();
     }
 
     @Override

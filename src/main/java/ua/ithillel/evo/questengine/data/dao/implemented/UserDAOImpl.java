@@ -13,7 +13,7 @@ import java.util.List;
 @Component
 public class UserDAOImpl implements UserDAO {
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     @Autowired
     public UserDAOImpl(UserRepository userRepository) {

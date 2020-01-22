@@ -17,8 +17,8 @@ import java.util.Optional;
 @Transactional
 public class HintServiceImpl implements HintService {
 
-    private HintDAO hintDAO;
-    private QuestionDAO questionDAO;
+    private final HintDAO hintDAO;
+    private final QuestionDAO questionDAO;
 
     @Autowired
     public HintServiceImpl(HintDAO hintDAO, QuestionDAO questionDAO) {

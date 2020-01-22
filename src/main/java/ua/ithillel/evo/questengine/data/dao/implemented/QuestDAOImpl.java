@@ -13,7 +13,7 @@ import java.util.List;
 @Component
 public class QuestDAOImpl implements QuestDAO {
 
-    private QuestRepository questRepository;
+    private final QuestRepository questRepository;
 
     @Autowired
     QuestDAOImpl(QuestRepository questRepository) {

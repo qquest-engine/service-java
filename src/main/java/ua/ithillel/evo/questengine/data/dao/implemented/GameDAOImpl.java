@@ -12,7 +12,7 @@ import java.util.List;
 @Component
 public class GameDAOImpl implements GameDAO {
 
-    private GameRepository gameRepository;
+    private final GameRepository gameRepository;
 
     @Autowired
     public GameDAOImpl(GameRepository gameRepository) {

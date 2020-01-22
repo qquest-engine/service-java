@@ -17,9 +17,9 @@ import ua.ithillel.evo.questengine.util.JwtUtil;
 @RestController
 public class AuthenticationController {
 
-    private AuthenticationManager authenticationManager;
-    private JwtUtil jwtTokenUtil;
-    private MyUserDetailsService userDetailsService;
+    private final AuthenticationManager authenticationManager;
+    private final JwtUtil jwtTokenUtil;
+    private final MyUserDetailsService userDetailsService;
 
     @Autowired
     public AuthenticationController(

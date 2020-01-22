@@ -12,7 +12,7 @@ import java.util.List;
 @Component
 public class QuestionDAOImpl implements QuestionDAO {
 
-    private QuestionRepository questionRepository;
+    private final QuestionRepository questionRepository;
 
     @Autowired
     public QuestionDAOImpl(QuestionRepository questionRepository) {

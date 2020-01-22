@@ -16,8 +16,8 @@ import java.util.Optional;
 @Transactional
 public class ProgressServiceImpl implements ProgressService {
 
-    private ProgressDAO progressDAO;
-    private GameDAO gameDAO;
+    private final ProgressDAO progressDAO;
+    private final GameDAO gameDAO;
 
     @Autowired
     public ProgressServiceImpl(ProgressDAO progressDAO, GameDAO gameDAO) {
