@@ -28,14 +28,9 @@ public class UserController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> create(@Valid @RequestBody UserDto userDto) throws Exception {
-        User user = userService.getByEmail(userDto.getEmail());
-        if (user == null) {
-            UserValidator.validate(UserConverter.convertFromDto(userDto));
-            userService.save(UserConverter.convertFromDto(userDto));
-            return new ResponseEntity<>(HttpStatus.CREATED);
-        } else {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+        UserValidator.validate(UserConverter.convertFromDto(userDto));
+        userService.save(UserConverter.convertFromDto(userDto));
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
