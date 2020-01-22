@@ -159,19 +159,14 @@ public class GameManagementController {
             @RequestBody String answerJson
     ) {
 
-        String userEmail = null;
-        if (jwt_token != null && jwt_token.startsWith("Bearer")) {
-//            userEmail = jwtUtil.extractUsername(jwt_token.replace("Bearer ", ""));
-            userEmail = JWT.decode(jwt_token).getSubject();
-        }
+        String userName = JWT.decode(jwt_token).getSubject();
 
         List<Progress> progresses = progressService.getByGameId(game_id);
         boolean gameIsExists = false;
 
-        if (userEmail != null) {
-            String finalUserEmail = userEmail;
+        if (userName != null) {
             Optional<Progress> optionalProgress = progresses.stream()
-                    .filter(p -> p.getGame().getAppUser().getEmail().equals(finalUserEmail))
+                    .filter(p -> p.getGame().getAppUser().getUserName().equals(userName))
                     .findFirst();
             if (optionalProgress.isPresent()) {
                 gameIsExists = true;

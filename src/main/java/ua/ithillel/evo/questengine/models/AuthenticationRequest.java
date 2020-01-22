@@ -13,7 +13,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class AuthenticationRequest implements Serializable {
 
-    private String email;
+    private String userName;
     private String password;
 
 }

@@ -9,6 +9,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import ua.ithillel.evo.questengine.data.entity.AppUser;
+import ua.ithillel.evo.questengine.models.AuthenticationRequest;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -17,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Map;
 
 import static com.auth0.jwt.algorithms.Algorithm.HMAC512;
 import static ua.ithillel.evo.questengine.security.SecurityConstants.*;
@@ -33,8 +35,19 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     public Authentication attemptAuthentication(HttpServletRequest req,
                                                 HttpServletResponse res) throws AuthenticationException {
         try {
-            AppUser creds = new ObjectMapper()
-                    .readValue(req.getInputStream(), AppUser.class);
+//            System.out.println(req.toString());
+            System.out.println(req.getContentType());
+            System.out.println(req.getParameter("username"));
+            System.out.println(req.getParameter("password"));
+//            for (Map.Entry entry : req.getParameterMap().entrySet()) {
+//                System.out.println(entry.getKey());
+//                System.out.println(entry.getValue().toString());
+//            }
+//            System.out.println();
+            AuthenticationRequest creds =
+            new AuthenticationRequest(req.getParameter("username"), req.getParameter("password"));
+//            AuthenticationRequest creds = new ObjectMapper()
+//                    .readValue(req.getInputStream(), AuthenticationRequest.class);
 
             return authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
@@ -42,7 +55,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                             creds.getPassword(),
                             new ArrayList<>())
             );
-        } catch (IOException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }

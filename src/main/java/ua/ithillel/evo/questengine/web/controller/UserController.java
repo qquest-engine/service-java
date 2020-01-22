@@ -20,16 +20,16 @@ import java.util.stream.Collectors;
 public class UserController {
 
     private UserService userService;
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+//    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public UserController(UserService userService, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public UserController(UserService userService/*, BCryptPasswordEncoder bCryptPasswordEncoder*/) {
         this.userService = userService;
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+//        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
     @PostMapping("/register")
     public ResponseEntity<Void> create(@Valid @RequestBody UserDto userDto) throws Exception {
-        userDto.setPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
+//        userDto.setPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
         userService.save(UserConverter.convertFromDto(userDto));
         return new ResponseEntity<>(HttpStatus.CREATED);
     }

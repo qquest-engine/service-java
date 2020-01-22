@@ -45,18 +45,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void save(AppUser newAppUser) throws Exception {
-        if (newAppUser.getId() != null) {
-            newAppUser.setPassword(passwordEncoder.encode(newAppUser.getPassword()));
-            this.userDAO.save(newAppUser);
-        } else {
-            AppUser appUserFromDb = getByEmail(newAppUser.getEmail());
-            if (appUserFromDb != null) {
-                throw new Exception("Email already exist!");
-            }
-            newAppUser.setPassword(passwordEncoder.encode(newAppUser.getPassword()));
-            this.userDAO.save(newAppUser);
-        }
+    public void save(AppUser newAppUser) {
+        newAppUser.setPassword(passwordEncoder.encode(newAppUser.getPassword()));
+        this.userDAO.save(newAppUser);
     }
 
     @Override
