@@ -3,14 +3,14 @@ package ua.ithillel.evo.questengine.web.controller;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.DirtiesContext;
-import ua.ithillel.evo.questengine.service.UserService;
+import ua.ithillel.evo.questengine.service.AppUserService;
 
 
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-class AppUserControllerIntegrationTest extends ControllerBaseTest {
+class AppAppUserControllerIntegrationTest extends ControllerBaseTest {
 
     @Autowired
-    UserService userService;
+    AppUserService appUserService;
 
     @Test
     void whenCreateUserThenRespondCreatedTest() {

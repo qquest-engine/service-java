@@ -12,7 +12,7 @@ import java.util.List;
 @Component
 public class GameDAOImpl implements GameDAO {
 
-    private GameRepository gameRepository;
+    private final GameRepository gameRepository;
 
     @Autowired
     public GameDAOImpl(GameRepository gameRepository) {
@@ -32,7 +32,7 @@ public class GameDAOImpl implements GameDAO {
 
     @Override
     public List<Game> getAll() {
-        return (List<Game>) this.gameRepository.findAll();
+        return this.gameRepository.findAll();
     }
 
     @Override

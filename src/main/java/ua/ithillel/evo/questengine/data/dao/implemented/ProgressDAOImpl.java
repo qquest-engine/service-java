@@ -8,12 +8,11 @@ import ua.ithillel.evo.questengine.data.repository.ProgressRepository;
 import ua.ithillel.evo.questengine.exception.NotFoundException;
 
 import java.util.List;
-import java.util.Optional;
 
 @Component
 public class ProgressDAOImpl implements ProgressDAO {
 
-    private ProgressRepository progressRepository;
+    private final ProgressRepository progressRepository;
 
     @Autowired
     public ProgressDAOImpl(ProgressRepository progressRepository) {
@@ -33,7 +32,7 @@ public class ProgressDAOImpl implements ProgressDAO {
 
     @Override
     public List<Progress> getAll() {
-        return (List<Progress>) progressRepository.findAll();
+        return progressRepository.findAll();
     }
 
     @Override

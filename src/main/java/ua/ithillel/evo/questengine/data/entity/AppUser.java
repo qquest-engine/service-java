@@ -14,7 +14,7 @@ import java.util.List;
 @Data
 @Builder
 @Entity
-//@Table(name = "app_user")
+@Table(name = "app_user")
 public class AppUser {
 
     @Id
@@ -26,13 +26,13 @@ public class AppUser {
     @Column(unique = true)
     private String userName;
 
-    @Column(/*name = "email",*/ unique = true)
+    @Column(name = "email", unique = true)
     private String email;
 
-//    @Column(name = "password")
+    @Column(name = "password")
     private String password;
 
-//    @Column(name = "role")
+    @Column(name = "role")
     @Enumerated(EnumType.STRING)
     private Role role;
 

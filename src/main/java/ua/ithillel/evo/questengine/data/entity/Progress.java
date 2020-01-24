@@ -26,7 +26,6 @@ public class Progress {
     private Long startTime;
 
     @Column(name = "end_time")
-//    @Temporal(TemporalType.TIMESTAMP)
     private Long endTime;
 
     @Column(name = "successful")
@@ -37,16 +36,10 @@ public class Progress {
     @JsonIgnore
     private Game game;
 
-//    @ManyToOne(optional = false)
-//    @JoinColumn(name = "hint_id")
-//    @JsonIgnore
-//    private Hint hint;
-
     @ManyToOne(optional = false)
     @JoinColumn(name = "question_id")
     @JsonIgnore
     private Question question;
-
 
     @PrePersist
     public void prePersist() {

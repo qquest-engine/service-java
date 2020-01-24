@@ -9,12 +9,11 @@ import ua.ithillel.evo.questengine.data.repository.QuestRepository;
 import ua.ithillel.evo.questengine.exception.NotFoundException;
 
 import java.util.List;
-import java.util.Optional;
 
 @Component
 public class QuestDAOImpl implements QuestDAO {
 
-    private QuestRepository questRepository;
+    private final QuestRepository questRepository;
 
     @Autowired
     QuestDAOImpl(QuestRepository questRepository) {

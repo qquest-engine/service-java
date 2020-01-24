@@ -10,14 +10,13 @@ import ua.ithillel.evo.questengine.data.entity.Progress;
 import ua.ithillel.evo.questengine.service.ProgressService;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional
 public class ProgressServiceImpl implements ProgressService {
 
-    private ProgressDAO progressDAO;
-    private GameDAO gameDAO;
+    private final ProgressDAO progressDAO;
+    private final GameDAO gameDAO;
 
     @Autowired
     public ProgressServiceImpl(ProgressDAO progressDAO, GameDAO gameDAO) {

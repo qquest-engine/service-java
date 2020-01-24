@@ -14,7 +14,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-//import ua.ithillel.evo.questengine.filters.JwtRequestFilter;
 import ua.ithillel.evo.questengine.security.JwtUserDetailsService;
 import ua.ithillel.evo.questengine.security.jwt.JWTAuthenticationFilter;
 import ua.ithillel.evo.questengine.security.jwt.JWTAuthorizationFilter;
@@ -25,8 +24,8 @@ import static ua.ithillel.evo.questengine.security.SecurityConstants.SIGN_UP_URL
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private JwtUserDetailsService userDetailsService;
-    private PasswordEncoder passwordEncoder;
+    private final JwtUserDetailsService userDetailsService;
+    private final PasswordEncoder passwordEncoder;
 
     public WebSecurityConfig(JwtUserDetailsService userDetailsService, @Lazy PasswordEncoder passwordEncoder) {
         this.userDetailsService = userDetailsService;

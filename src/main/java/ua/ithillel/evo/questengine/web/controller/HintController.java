@@ -12,14 +12,12 @@ import ua.ithillel.evo.questengine.data.entity.Question;
 import ua.ithillel.evo.questengine.service.HintService;
 import ua.ithillel.evo.questengine.service.QuestionService;
 
-import java.util.Optional;
-
 @RestController
 @RequestMapping("/hints")
 public class HintController {
 
-    private HintService hintService;
-    private QuestionService questionService;
+    private final HintService hintService;
+    private final QuestionService questionService;
 
     @Autowired
     public HintController(HintService hintService, QuestionService questionService) {

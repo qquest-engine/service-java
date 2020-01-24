@@ -3,7 +3,6 @@ package ua.ithillel.evo.questengine.service;
 import ua.ithillel.evo.questengine.data.entity.Hint;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface HintService {
 
@@ -18,7 +17,5 @@ public interface HintService {
     void deleteById(Long id);
 
     List<Hint> getCurrentHintForQuestion(Long questionId, Long questionStartTime);
-
-//    Long getHintDurationByHintId(Long hintId);
 
 }

@@ -4,13 +4,13 @@ import ua.ithillel.evo.questengine.data.entity.AppUser;
 
 import java.util.List;
 
-public interface UserDAO {
-
-    AppUser getByEmailAndPassword(String email, String password);
-
-    AppUser getByEmail(String email);
+public interface AppUserDAO {
 
     AppUser getById(Long id);
+
+    AppUser getByUserName(String userName);
+
+    AppUser getByEmail(String email);
 
     List<AppUser> getAll();
 

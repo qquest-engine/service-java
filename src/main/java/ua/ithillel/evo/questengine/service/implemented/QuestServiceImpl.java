@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.ithillel.evo.questengine.data.dao.QuestDAO;
-import ua.ithillel.evo.questengine.data.dao.UserDAO;
+import ua.ithillel.evo.questengine.data.dao.AppUserDAO;
 import ua.ithillel.evo.questengine.data.entity.Quest;
 import ua.ithillel.evo.questengine.service.QuestService;
 
@@ -14,10 +14,10 @@ import java.util.List;
 @Transactional
 public class QuestServiceImpl implements QuestService {
 
-    private QuestDAO questDAO;
+    private final QuestDAO questDAO;
 
     @Autowired
-    public QuestServiceImpl(QuestDAO questDAO, UserDAO userDAO) {
+    public QuestServiceImpl(QuestDAO questDAO, AppUserDAO appUserDAO) {
         this.questDAO = questDAO;
     }
 

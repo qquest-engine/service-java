@@ -21,7 +21,6 @@ import ua.ithillel.evo.questengine.service.GameService;
 import ua.ithillel.evo.questengine.service.HintService;
 import ua.ithillel.evo.questengine.service.ProgressService;
 import ua.ithillel.evo.questengine.service.QuestionService;
-//import ua.ithillel.evo.questengine.security.jwt.JwtUtil;
 
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -37,10 +36,10 @@ import static ua.ithillel.evo.questengine.security.SecurityConstants.TOKEN_PREFI
 @RequestMapping("/manage")
 public class GameManagementController {
 
-    private QuestionService questionService;
-    private ProgressService progressService;
-    private GameService gameService;
-    private HintService hintService;
+    private final QuestionService questionService;
+    private final ProgressService progressService;
+    private final GameService gameService;
+    private final HintService hintService;
 //    private JwtUtil jwtUtil;
 
     @Autowired

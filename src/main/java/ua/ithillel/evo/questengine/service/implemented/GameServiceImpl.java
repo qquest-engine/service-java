@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.ithillel.evo.questengine.data.dao.GameDAO;
-import ua.ithillel.evo.questengine.data.dao.UserDAO;
+import ua.ithillel.evo.questengine.data.dao.AppUserDAO;
 import ua.ithillel.evo.questengine.data.entity.Game;
 import ua.ithillel.evo.questengine.data.entity.AppUser;
 import ua.ithillel.evo.questengine.service.GameService;
@@ -15,13 +15,13 @@ import java.util.List;
 @Transactional
 public class GameServiceImpl implements GameService {
 
-    private GameDAO gameDAO;
-    private UserDAO userDAO;
+    private final GameDAO gameDAO;
+    private final AppUserDAO appUserDAO;
 
     @Autowired
-    public GameServiceImpl(GameDAO gameDAO, UserDAO userDAO) {
+    public GameServiceImpl(GameDAO gameDAO, AppUserDAO appUserDAO) {
         this.gameDAO = gameDAO;
-        this.userDAO = userDAO;
+        this.appUserDAO = appUserDAO;
     }
 
     @Override
@@ -41,10 +41,10 @@ public class GameServiceImpl implements GameService {
 
     @Override
     public void createGameForUser(Long userId, Game game) {
-        AppUser appUser = userDAO.getById(userId);
+        AppUser appUser = appUserDAO.getById(userId);
         appUser.getGames().add(game);
         game.setAppUser(appUser);
-        userDAO.save(appUser);
+        appUserDAO.save(appUser);
     }
 
     @Override

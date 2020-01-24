@@ -10,8 +10,7 @@ import ua.ithillel.evo.questengine.data.converter.QuestConverter;
 import ua.ithillel.evo.questengine.data.dto.QuestDto;
 import ua.ithillel.evo.questengine.data.entity.Quest;
 import ua.ithillel.evo.questengine.service.QuestService;
-import ua.ithillel.evo.questengine.service.UserService;
-//import ua.ithillel.evo.questengine.security.jwt.JwtUtil;
+import ua.ithillel.evo.questengine.service.AppUserService;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -25,15 +24,15 @@ import static ua.ithillel.evo.questengine.security.SecurityConstants.TOKEN_PREFI
 @RequestMapping("/quests")
 public class QuestController {
 
-    private QuestService questService;
-    private UserService userService;
+    private final QuestService questService;
+    private final AppUserService appUserService;
 //    private JwtUtil jwtUtil;
 
     @Autowired
-    public QuestController(QuestService questService, /*JwtUtil jwtUtil,*/ UserService userService) {
+    public QuestController(QuestService questService, /*JwtUtil jwtUtil,*/ AppUserService appUserService) {
         this.questService = questService;
 //        this.jwtUtil = jwtUtil;
-        this.userService = userService;
+        this.appUserService = appUserService;
     }
 
     private Long getUserIdFromToken(String jwt_token) {//this should be util method in util class
@@ -67,7 +66,7 @@ public class QuestController {
             userId = getUserIdFromToken(jwt_token);
         }
         Quest quest = QuestConverter.convertFromDto(questDto);
-        quest.setAppUser(userService.getById(userId));
+        quest.setAppUser(appUserService.getById(userId));
         Quest savedQuest = questService.save(quest);
         return new ResponseEntity<>(savedQuest.getId(), HttpStatus.CREATED);
     }

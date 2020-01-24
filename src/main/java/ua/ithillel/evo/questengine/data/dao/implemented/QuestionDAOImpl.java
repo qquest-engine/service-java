@@ -8,12 +8,11 @@ import ua.ithillel.evo.questengine.data.repository.QuestionRepository;
 import ua.ithillel.evo.questengine.exception.NotFoundException;
 
 import java.util.List;
-import java.util.Optional;
 
 @Component
 public class QuestionDAOImpl implements QuestionDAO {
 
-    private QuestionRepository questionRepository;
+    private final QuestionRepository questionRepository;
 
     @Autowired
     public QuestionDAOImpl(QuestionRepository questionRepository) {

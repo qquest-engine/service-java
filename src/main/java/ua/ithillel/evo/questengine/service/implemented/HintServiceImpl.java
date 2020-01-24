@@ -11,14 +11,13 @@ import ua.ithillel.evo.questengine.service.HintService;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional
 public class HintServiceImpl implements HintService {
 
-    private HintDAO hintDAO;
-    private QuestionDAO questionDAO;
+    private final HintDAO hintDAO;
+    private final QuestionDAO questionDAO;
 
     @Autowired
     public HintServiceImpl(HintDAO hintDAO, QuestionDAO questionDAO) {
@@ -71,10 +70,4 @@ public class HintServiceImpl implements HintService {
         return hintsForUserShow;
     }
 
-
-    //    @Override
-//    public Long getHintDurationByHintId(Long hintId) {
-//        final Optional<Hint> optionalHint = hintDAO.getById(hintId);
-//        return optionalHint.map(Hint::getDuration).orElse(null);
-//    }
 }

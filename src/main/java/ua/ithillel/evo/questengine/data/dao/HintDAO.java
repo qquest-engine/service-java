@@ -3,7 +3,6 @@ package ua.ithillel.evo.questengine.data.dao;
 import ua.ithillel.evo.questengine.data.entity.Hint;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface HintDAO {
 

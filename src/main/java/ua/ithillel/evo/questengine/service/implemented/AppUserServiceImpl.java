@@ -5,53 +5,53 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ua.ithillel.evo.questengine.data.dao.UserDAO;
+import ua.ithillel.evo.questengine.data.dao.AppUserDAO;
 import ua.ithillel.evo.questengine.data.entity.AppUser;
-import ua.ithillel.evo.questengine.service.UserService;
+import ua.ithillel.evo.questengine.service.AppUserService;
 
 import java.util.List;
 
 @Service
 @Transactional
-public class UserServiceImpl implements UserService {
+public class AppUserServiceImpl implements AppUserService {
 
-    private UserDAO userDAO;
-    private PasswordEncoder passwordEncoder;
+    private final AppUserDAO appUserDAO;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserServiceImpl(UserDAO userDAO, PasswordEncoder passwordEncoder) {
-        this.userDAO = userDAO;
+    public AppUserServiceImpl(AppUserDAO appUserDAO, PasswordEncoder passwordEncoder) {
+        this.appUserDAO = appUserDAO;
         this.passwordEncoder = passwordEncoder;
     }
 
     @Override
-    public AppUser getByEmailAndPassword(String email, String password) {
-        return this.userDAO.getByEmailAndPassword(email, password);
+    public AppUser getById(Long id) {
+        return this.appUserDAO.getById(id);
+    }
+
+    @Override
+    public AppUser getByUserName(String userName) {
+        return this.appUserDAO.getByUserName(userName);
     }
 
     @Override
     public AppUser getByEmail(String email) {
-        return this.userDAO.getByEmail(email);
-    }
-
-    @Override
-    public AppUser getById(Long id) {
-        return this.userDAO.getById(id);
+        return this.appUserDAO.getByEmail(email);
     }
 
     @Override
     public List<AppUser> getAll() {
-        return this.userDAO.getAll();
+        return this.appUserDAO.getAll();
     }
 
     @Override
     public void save(AppUser newAppUser) {
         newAppUser.setPassword(passwordEncoder.encode(newAppUser.getPassword()));
-        this.userDAO.save(newAppUser);
+        this.appUserDAO.save(newAppUser);
     }
 
     @Override
     public void deleteById(Long id) {
-        this.userDAO.deleteById(id);
+        this.appUserDAO.deleteById(id);
     }
 }

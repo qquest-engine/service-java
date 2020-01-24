@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.DirtiesContext;
 import ua.ithillel.evo.questengine.service.QuestService;
-import ua.ithillel.evo.questengine.service.UserService;
+import ua.ithillel.evo.questengine.service.AppUserService;
 
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 class QuestControllerIntegrationTest extends ControllerBaseTest {
@@ -13,7 +13,7 @@ class QuestControllerIntegrationTest extends ControllerBaseTest {
     QuestService questService;
 
     @Autowired
-    UserService userService;
+    AppUserService appUserService;
 
     @Test
     void whenCreateQuestThenRespondCreatedTest() {

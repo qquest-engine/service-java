@@ -9,13 +9,12 @@ import ua.ithillel.evo.questengine.data.entity.Game;
 import ua.ithillel.evo.questengine.service.GameService;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/games")
 public class GameController {
 
-    private GameService gameService;
+    private final GameService gameService;
 
     @Autowired
     public GameController(GameService gameService) {

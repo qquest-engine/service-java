@@ -8,13 +8,11 @@ import org.springframework.web.bind.annotation.*;
 import ua.ithillel.evo.questengine.data.entity.Progress;
 import ua.ithillel.evo.questengine.service.ProgressService;
 
-import java.util.Optional;
-
 @RestController
 @RequestMapping("/progresses")
 public class ProgressController {
 
-    private ProgressService progressService;
+    private final ProgressService progressService;
 
     @Autowired
     public ProgressController(ProgressService progressService) {

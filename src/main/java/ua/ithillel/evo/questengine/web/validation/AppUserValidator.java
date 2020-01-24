@@ -7,11 +7,11 @@ import ua.ithillel.evo.questengine.exception.UserValidationException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class UserValidator {
+public class AppUserValidator {
 
     private static final String EMPTY_PROPERTY_EXCEPTION_MESSAGE = "User field parameter '%s' must be provided";
     private static final String REGEX_EXCEPTION_MESSAGE = "User field parameter '%s' not correct. '%s' ";
-    private static String VALID_EMAIL_REGEX = "^[\\w!#$%&’*+/=?`{|}~^-]+(?:\\.[\\w!#$%&’*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
+    private static final String VALID_EMAIL_REGEX = "^[\\w!#$%&’*+/=?`{|}~^-]+(?:\\.[\\w!#$%&’*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
 
     public static void validate(AppUser appUser) throws UserValidationException {
         validateWithRegularExpression(appUser.getEmail(), VALID_EMAIL_REGEX, "email", "Email address not correct.");
