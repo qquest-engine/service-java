@@ -3,7 +3,6 @@ package ua.ithillel.evo.questengine.data.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
-import ua.ithillel.evo.questengine.data.entity.Type;
 
 import javax.validation.constraints.NotNull;
 
@@ -23,8 +22,8 @@ public class QuestDto {
     @NotNull(message = "Description is required")
     private String description;
 
-    @NotNull(message = "Type is required")
-    private Type type;
+//    @NotNull(message = "Type is required")
+//    private Type type;
 
     @NotNull(message = "Access Time is required")
     private Long accessTime;

@@ -10,21 +10,13 @@ import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode(of = "id")
 @Data
 @Builder
 @Entity
-@Table(name = "game")
-public class Game {
-
-    @Id
-    @GeneratedValue(generator = "increment")
-    @GenericGenerator(name = "increment", strategy = "increment")
-    @Setter(AccessLevel.NONE)
-    private Long id;
+public class Game extends BaseEntity {
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "user_id")
+    @JoinColumn
     @JsonIgnore
     private AppUser appUser;
 

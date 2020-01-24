@@ -10,36 +10,28 @@ import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode(of = "id")
 @Data
 @Builder
 @Entity
-@Table(name = "quest")
-public class Quest {
+public class Quest extends BaseEntity {
 
-    @Id
-    @GeneratedValue(generator = "increment")
-    @GenericGenerator(name = "increment", strategy = "increment")
-    @Setter(AccessLevel.NONE)
-    private Long id;
-
-    @Column(name = "name", unique = true)
+    @Column
     private String name;
 
-    @Column(name = "description")
+    @Column
     private String description;
 
-    @Column(name = "type")
-    @Enumerated(EnumType.STRING)
-    private Type type;
+//    @Column(name = "type")
+//    @Enumerated(EnumType.STRING)
+//    private Type type;
 
-    @Column(name = "access_time")
+    @Column
     private Long accessTime;
 
-    @Column(name = "is_public")
+    @Column
     private Boolean isPublic;
 
-    @Column(name = "image_link")
+    @Column
     private String imageLink;
 
     @OneToMany(mappedBy = "quest", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -48,7 +40,7 @@ public class Quest {
     private List<Question> questions = new ArrayList<>();
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "user_id")
+    @JoinColumn
     @JsonIgnore
-    private AppUser appUser;
+    private AppUser author;
 }

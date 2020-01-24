@@ -9,7 +9,7 @@ public class QuestConverter {
         return Quest.builder()
                 .name(questDto.getName())
                 .description(questDto.getDescription())
-                .type(questDto.getType())
+//                .type(questDto.getType())
                 .isPublic(questDto.getIsPublic())
                 .accessTime(questDto.getAccessTime())
                 .imageLink(questDto.getImageLink())
@@ -21,11 +21,11 @@ public class QuestConverter {
                 .id(quest.getId())
                 .name(quest.getName())
                 .description(quest.getDescription())
-                .type(quest.getType())
+//                .type(quest.getType())
                 .isPublic(quest.getIsPublic())
                 .accessTime(quest.getAccessTime())
                 .imageLink(quest.getImageLink())
-                .author(quest.getAppUser().getId())
+                .author(quest.getAuthor().getId())
                 .build();
     }
 }

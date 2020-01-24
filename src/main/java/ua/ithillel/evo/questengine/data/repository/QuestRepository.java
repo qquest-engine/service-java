@@ -10,5 +10,5 @@ import java.util.List;
 public interface QuestRepository extends JpaRepository<Quest, Long> {
     List<Quest> getQuestsByIsPublicTrueOrderByAccessTimeDesc();
 
-    List<Quest> getQuestsByAppUserIdOrderByIdAsc(Long userId);
+    List<Quest> getQuestsByAuthorIdOrderByIdAsc(Long userId);
 }

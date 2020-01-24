@@ -5,7 +5,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ua.ithillel.evo.questengine.data.converter.UserConverter;
-import ua.ithillel.evo.questengine.data.dto.UserDto;
+import ua.ithillel.evo.questengine.data.dto.AppUserDto;
 import ua.ithillel.evo.questengine.data.entity.AppUser;
 import ua.ithillel.evo.questengine.service.AppUserService;
 import ua.ithillel.evo.questengine.web.validation.AppUserValidator;
@@ -25,20 +25,20 @@ public class AppUserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<Void> create(@Valid @RequestBody UserDto userDto) {
-        appUserService.save(UserConverter.convertFromDto(userDto));
+    public ResponseEntity<Void> create(@Valid @RequestBody AppUserDto appUserDto) {
+        appUserService.save(UserConverter.convertFromDto(appUserDto));
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<UserDto> getById(@PathVariable Long id) {
+    public ResponseEntity<AppUserDto> getById(@PathVariable Long id) {
         AppUser appUser = appUserService.getById(id);
         return new ResponseEntity<>(UserConverter.convertFromEntity(appUser), HttpStatus.OK);
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<UserDto>> getAll() {
-        List<UserDto> usersDto = appUserService.getAll().stream().map(
+    public ResponseEntity<List<AppUserDto>> getAll() {
+        List<AppUserDto> usersDto = appUserService.getAll().stream().map(
                 UserConverter::convertFromEntity
         ).collect(Collectors.toList());
 
@@ -46,12 +46,12 @@ public class AppUserController {
     }
 
     @PutMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Void> update(@Valid @RequestBody UserDto userDto, @PathVariable Long id) {
+    public ResponseEntity<Void> update(@Valid @RequestBody AppUserDto appUserDto, @PathVariable Long id) {
         AppUser appUser = appUserService.getById(id);
-        AppUser newAppUser = UserConverter.convertFromDto(userDto);
+        AppUser newAppUser = UserConverter.convertFromDto(appUserDto);
         appUser.setEmail(newAppUser.getEmail());
         appUser.setPassword(newAppUser.getPassword());
-        appUser.setRole(newAppUser.getRole());
+        appUser.setRoles(newAppUser.getRoles());
         AppUserValidator.validate(appUser);
         appUserService.save(appUser);
         return new ResponseEntity<>(HttpStatus.OK);

@@ -66,7 +66,7 @@ public class QuestController {
             userId = getUserIdFromToken(jwt_token);
         }
         Quest quest = QuestConverter.convertFromDto(questDto);
-        quest.setAppUser(appUserService.getById(userId));
+        quest.setAuthor(appUserService.getById(userId));
         Quest savedQuest = questService.save(quest);
         return new ResponseEntity<>(savedQuest.getId(), HttpStatus.CREATED);
     }
@@ -96,7 +96,7 @@ public class QuestController {
         quest.setName(newQuest.getName());
         quest.setDescription(newQuest.getDescription());
         quest.setImageLink(questDto.getImageLink());
-        quest.setType(newQuest.getType());
+//        quest.setType(newQuest.getType());
         quest.setAccessTime(newQuest.getAccessTime());
         quest.setIsPublic(newQuest.getIsPublic());
         questService.save(quest);

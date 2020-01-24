@@ -10,29 +10,22 @@ import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode(of = "id")
 @Data
 @Builder
 @Entity
 @Table(name = "question")
-public class Question {
+public class Question extends BaseEntity {
 
-    @Id
-    @GeneratedValue(generator = "increment")
-    @GenericGenerator(name = "increment", strategy = "increment")
-    @Setter(AccessLevel.NONE)
-    private Long id;
-
-    @Column(name = "text")
+    @Column
     private String text;
 
-    @Column(name = "answer")
+    @Column
     private String answer;
 
-    @Column(name = "duration")
+    @Column
     private Long duration;
 
-    @Column(name = "image_link")
+    @Column
     private String imageLink;
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
@@ -44,7 +37,7 @@ public class Question {
     private List<Progress> progresses = new ArrayList<>();
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "quest_id")
+    @JoinColumn
     @JsonIgnore
     private Quest quest;
 }

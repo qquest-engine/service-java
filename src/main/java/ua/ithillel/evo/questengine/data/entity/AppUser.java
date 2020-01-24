@@ -2,41 +2,32 @@ package ua.ithillel.evo.questengine.data.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode(of = "id")
 @Data
 @Builder
 @Entity
-@Table(name = "app_user")
-public class AppUser {
-
-    @Id
-    @GeneratedValue(generator = "increment")
-    @GenericGenerator(name = "increment", strategy = "increment")
-    @Setter(AccessLevel.NONE)
-    private Long id;
+public class AppUser extends BaseEntity {
 
     @Column(unique = true)
     private String userName;
 
-    @Column(name = "email", unique = true)
+    @Column(unique = true)
     private String email;
 
-    @Column(name = "password")
+    @Column
     private String password;
 
-    @Column(name = "role")
-    @Enumerated(EnumType.STRING)
-    private Role role;
+    @ManyToMany(mappedBy = "users")
+    private Set<Role> roles;
 
-    @OneToMany(mappedBy = "appUser", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
     private List<Quest> quests = new ArrayList<>();
 

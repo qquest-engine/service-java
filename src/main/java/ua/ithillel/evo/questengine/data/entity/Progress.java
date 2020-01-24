@@ -13,31 +13,24 @@ import java.sql.Timestamp;
 @Data
 @Builder
 @Entity
-@Table(name = "progress")
-public class Progress {
+public class Progress extends BaseEntity {
 
-    @Id
-    @GeneratedValue(generator = "increment")
-    @GenericGenerator(name = "increment", strategy = "increment")
-    @Setter(AccessLevel.NONE)
-    private Long id;
-
-    @Column(name = "start_time")
+    @Column
     private Long startTime;
 
-    @Column(name = "end_time")
+    @Column
     private Long endTime;
 
-    @Column(name = "successful")
+    @Column
     private Boolean successful;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "game_id")
+    @JoinColumn
     @JsonIgnore
     private Game game;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "question_id")
+    @JoinColumn
     @JsonIgnore
     private Question question;
 
