@@ -10,19 +10,15 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 //import ua.ithillel.evo.questengine.filters.JwtRequestFilter;
 import ua.ithillel.evo.questengine.security.JwtUserDetailsService;
-import ua.ithillel.evo.questengine.security.UrlAuthenticationSuccessHandler;
 import ua.ithillel.evo.questengine.security.jwt.JWTAuthenticationFilter;
 import ua.ithillel.evo.questengine.security.jwt.JWTAuthorizationFilter;
 
-import static ua.ithillel.evo.questengine.security.SecurityConstants.SIGN_IN_URL;
 import static ua.ithillel.evo.questengine.security.SecurityConstants.SIGN_UP_URL;
 
 @Configuration
@@ -44,9 +40,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
-//                .loginPage("/login.html")
-//                .loginProcessingUrl(SIGN_IN_URL)
-//                .successHandler(myAuthenticationSuccessHandler())
+//                .loginPage("/login")
+                .permitAll()
                 .and()
                 .addFilter(new JWTAuthenticationFilter(authenticationManager()))
                 .addFilter(new JWTAuthorizationFilter(authenticationManager()))
@@ -71,6 +66,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
 //    @Bean//Use this only for testing purposes
 //    public PasswordEncoder noOpPasswordEncoder() {
 //        return NoOpPasswordEncoder.getInstance();

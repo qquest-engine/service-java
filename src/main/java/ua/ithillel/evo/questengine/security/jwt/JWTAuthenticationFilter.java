@@ -6,7 +6,11 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import ua.ithillel.evo.questengine.data.entity.AppUser;
 import ua.ithillel.evo.questengine.models.AuthenticationRequest;
@@ -35,19 +39,8 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     public Authentication attemptAuthentication(HttpServletRequest req,
                                                 HttpServletResponse res) throws AuthenticationException {
         try {
-//            System.out.println(req.toString());
-            System.out.println(req.getContentType());
-            System.out.println(req.getParameter("username"));
-            System.out.println(req.getParameter("password"));
-//            for (Map.Entry entry : req.getParameterMap().entrySet()) {
-//                System.out.println(entry.getKey());
-//                System.out.println(entry.getValue().toString());
-//            }
-//            System.out.println();
             AuthenticationRequest creds =
-            new AuthenticationRequest(req.getParameter("username"), req.getParameter("password"));
-//            AuthenticationRequest creds = new ObjectMapper()
-//                    .readValue(req.getInputStream(), AuthenticationRequest.class);
+                    new AuthenticationRequest(req.getParameter("username"), req.getParameter("password"));
 
             return authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
@@ -64,8 +57,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     protected void successfulAuthentication(HttpServletRequest req,
                                             HttpServletResponse res,
                                             FilterChain chain,
-                                            Authentication auth) throws IOException, ServletException {
-
+                                            Authentication auth) {
         String token = JWT.create()
                 .withSubject(((User) auth.getPrincipal()).getUsername())
                 .withExpiresAt(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
