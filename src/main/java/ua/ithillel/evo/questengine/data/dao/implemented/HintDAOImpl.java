@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import ua.ithillel.evo.questengine.data.dao.HintDAO;
 import ua.ithillel.evo.questengine.data.entity.Hint;
 import ua.ithillel.evo.questengine.data.repository.HintRepository;
+import ua.ithillel.evo.questengine.exception.NotFoundException;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,8 +21,9 @@ public class HintDAOImpl implements HintDAO {
     }
 
     @Override
-    public Optional<Hint> getById(Long id) {
-        return hintRepository.findById(id);
+    public Hint getById(Long id) {
+        return hintRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("There is no Hint with id " + id));
     }
 
     @Override

@@ -34,10 +34,7 @@ public class UserController {
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<UserDto> getById(@PathVariable Long id) {
         AppUser appUser = userService.getById(id);
-        if (appUser != null) {
-            return new ResponseEntity<>(UserConverter.convertFromEntity(appUser), HttpStatus.OK);
-        } else
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(UserConverter.convertFromEntity(appUser), HttpStatus.OK);
     }
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
@@ -53,16 +50,12 @@ public class UserController {
     public ResponseEntity<Void> update(@Valid @RequestBody UserDto userDto, @PathVariable Long id) throws Exception {
         AppUser appUser = userService.getById(id);
         AppUser newAppUser = UserConverter.convertFromDto(userDto);
-        if (appUser != null) {
-            appUser.setEmail(newAppUser.getEmail());
-            appUser.setPassword(newAppUser.getPassword());
-            appUser.setRole(newAppUser.getRole());
-            UserValidator.validate(appUser);
-            userService.save(appUser);
-            return new ResponseEntity<>(HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        appUser.setEmail(newAppUser.getEmail());
+        appUser.setPassword(newAppUser.getPassword());
+        appUser.setRole(newAppUser.getRole());
+        UserValidator.validate(appUser);
+        userService.save(appUser);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{id}")

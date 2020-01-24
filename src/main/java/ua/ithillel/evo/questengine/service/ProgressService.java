@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface ProgressService {
 
-    Optional<Progress> getById(Long id);
+    Progress getById(Long id);
 
     List<Progress> getByGameId(Long gameId);
 

@@ -18,6 +18,9 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static ua.ithillel.evo.questengine.security.SecurityConstants.HEADER_STRING;
+import static ua.ithillel.evo.questengine.security.SecurityConstants.TOKEN_PREFIX;
+
 @RestController
 @RequestMapping("/quests")
 public class QuestController {
@@ -33,8 +36,8 @@ public class QuestController {
         this.userService = userService;
     }
 
-    private Long getUserIdFromToken(String jwt_token) {
-        String token = jwt_token.replace("Bearer ", "");
+    private Long getUserIdFromToken(String jwt_token) {//this should be util method in util class
+//        String token = jwt_token.replace("Bearer ", "");
 //        return Long.parseLong(jwtUtil.extractClaim(token, claim -> claim.get("id")).toString());
         return JWT.decode(jwt_token).getClaim("id").asLong();
     }
@@ -57,10 +60,10 @@ public class QuestController {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Long> create(
             @Valid @RequestBody QuestDto questDto,
-            @RequestHeader("Authorization") String jwt_token
+            @RequestHeader(HEADER_STRING) String jwt_token
     ) {
         Long userId = 0L;
-        if (jwt_token != null && jwt_token.startsWith("Bearer")) {
+        if (jwt_token != null && jwt_token.startsWith(TOKEN_PREFIX)) {
             userId = getUserIdFromToken(jwt_token);
         }
         Quest quest = QuestConverter.convertFromDto(questDto);
@@ -72,11 +75,7 @@ public class QuestController {
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<QuestDto> getById(@PathVariable Long id) {
         Quest quest = questService.getById(id);
-        if (quest != null) {
-            return new ResponseEntity<>(QuestConverter.convertFromEntity(quest), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        return new ResponseEntity<>(QuestConverter.convertFromEntity(quest), HttpStatus.OK);
     }
 
     @GetMapping(value = "/user/{user_id}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -87,7 +86,7 @@ public class QuestController {
                     quests.stream().map(QuestConverter::convertFromEntity).collect(Collectors.toList()), HttpStatus.OK
             );
         } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND); //NOT_FOUND or return empty List ?
         }
     }
 
@@ -95,18 +94,14 @@ public class QuestController {
     public ResponseEntity<Void> updateQuest(@Valid @RequestBody QuestDto questDto, @PathVariable Long id) {
         Quest quest = questService.getById(id);
         Quest newQuest = QuestConverter.convertFromDto(questDto);
-        if (quest != null) {
-            quest.setName(newQuest.getName());
-            quest.setDescription(newQuest.getDescription());
-            quest.setImageLink(questDto.getImageLink());
-            quest.setType(newQuest.getType());
-            quest.setAccessTime(newQuest.getAccessTime());
-            quest.setIsPublic(newQuest.getIsPublic());
-            questService.save(quest);
-            return new ResponseEntity<>(HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        quest.setName(newQuest.getName());
+        quest.setDescription(newQuest.getDescription());
+        quest.setImageLink(questDto.getImageLink());
+        quest.setType(newQuest.getType());
+        quest.setAccessTime(newQuest.getAccessTime());
+        quest.setIsPublic(newQuest.getIsPublic());
+        questService.save(quest);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{id}")

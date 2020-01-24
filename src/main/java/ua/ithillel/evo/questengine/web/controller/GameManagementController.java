@@ -30,6 +30,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static ua.ithillel.evo.questengine.security.SecurityConstants.HEADER_STRING;
+import static ua.ithillel.evo.questengine.security.SecurityConstants.TOKEN_PREFIX;
+
 @RestController
 @RequestMapping("/manage")
 public class GameManagementController {
@@ -63,25 +66,25 @@ public class GameManagementController {
 
     @GetMapping(value = "/game/{game_id}/quest/{quest_id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<QuestionDto> getLastQuestionAndHintsByQuestIdGameId(
-            @RequestHeader("Authorization") String jwt_token,
+            @RequestHeader(HEADER_STRING) String jwt_token,
             @PathVariable Long game_id,
             @PathVariable Long quest_id
     ) {
         Long userId = 0L;
-        if (jwt_token != null && jwt_token.startsWith("Bearer")) {
+        if (jwt_token != null && jwt_token.startsWith(TOKEN_PREFIX)) {
             userId = getUserIdFromToken(jwt_token);
         }
 
         List<Question> questions = questionService.getAllByQuestId(quest_id);
         List<Progress> progresses = progressService.getByGameId(game_id);
-        List<Question> questionsInPogress = progresses
+        List<Question> questionsInProgress = progresses
                 .stream()
                 .map(Progress::getQuestion)
                 .collect(Collectors.toList());
         List<Game> games = gameService.getGamesByUserId(userId);
         Game game = gameService.getById(game_id);
 
-        if (game != null && games.contains(game)) {
+        if (/*game != null && */games.contains(game)) {
             if (progresses.size() == 0) {
                 Progress progress = Progress.builder()
                         .game(game)
@@ -128,7 +131,7 @@ public class GameManagementController {
                     return new ResponseEntity<>(questionDto, HttpStatus.OK);
                 } else {
                     for (Question question : questions) {
-                        if (!questionsInPogress.contains(question)) {
+                        if (!questionsInProgress.contains(question)) {
                             progressService.saveProgressForGame(game_id, Progress.builder()
                                     .game(game)
                                     .question(question)
@@ -153,7 +156,7 @@ public class GameManagementController {
 
     @PostMapping(value = "/game/{game_id}/question/{question_id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> checkAnswer(
-            @RequestHeader("Authorization") String jwt_token,
+            @RequestHeader(HEADER_STRING) String jwt_token,
             @PathVariable Long game_id,
             @PathVariable Long question_id,
             @RequestBody String answerJson
@@ -186,33 +189,31 @@ public class GameManagementController {
             }
 
             Question question = questionService.getById(question_id);
-            if (question != null) {
-                String[] answers = question.getAnswer().split(";");
-                if (answers.length > 0) {
-                    for (String a : answers) {
-                        if (a.equals(answer)) {
-                            List<Progress> progress = progressService.getByGameId(game_id);
-                            Optional<Progress> optionalProgress = progress.stream().filter(p -> p.getQuestion().getId().equals(question_id)).findFirst();
-                            Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-                            if (optionalProgress.isPresent()) {
-                                Progress lastProgress = optionalProgress.get();
-                                if (lastProgress.getStartTime() + question.getDuration() >= System.currentTimeMillis()) {
-                                    lastProgress.setSuccessful(true);
-                                } else {
-                                    lastProgress.setSuccessful(false);
-                                }
-                                if (lastProgress.getEndTime() == null) {
-                                    lastProgress.setEndTime(timestamp.getTime());
-                                    progressService.save(lastProgress);
-                                }
-                                return new ResponseEntity<>(HttpStatus.OK);
+
+            String[] answers = question.getAnswer().split(";");
+            if (answers.length > 0) {
+                for (String a : answers) {
+                    if (a.equals(answer)) {
+                        List<Progress> progress = progressService.getByGameId(game_id);
+                        Optional<Progress> optionalProgress = progress.stream().filter(p -> p.getQuestion().getId().equals(question_id)).findFirst();
+                        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+                        if (optionalProgress.isPresent()) {
+                            Progress lastProgress = optionalProgress.get();
+                            if (lastProgress.getStartTime() + question.getDuration() >= System.currentTimeMillis()) {
+                                lastProgress.setSuccessful(true);
+                            } else {
+                                lastProgress.setSuccessful(false);
                             }
+                            if (lastProgress.getEndTime() == null) {
+                                lastProgress.setEndTime(timestamp.getTime());
+                                progressService.save(lastProgress);
+                            }
+                            return new ResponseEntity<>(HttpStatus.OK);
                         }
-                        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
                     }
+                    return new ResponseEntity<>(HttpStatus.NOT_FOUND);
                 }
             }
-
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }

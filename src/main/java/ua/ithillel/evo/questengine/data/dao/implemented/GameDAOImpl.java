@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import ua.ithillel.evo.questengine.data.dao.GameDAO;
 import ua.ithillel.evo.questengine.data.entity.Game;
 import ua.ithillel.evo.questengine.data.repository.GameRepository;
+import ua.ithillel.evo.questengine.exception.NotFoundException;
 
 import java.util.List;
 
@@ -20,7 +21,8 @@ public class GameDAOImpl implements GameDAO {
 
     @Override
     public Game getById(Long id) {
-        return this.gameRepository.findById(id).orElse(null);
+        return this.gameRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("There is no Game with id " + id));
     }
 
     @Override

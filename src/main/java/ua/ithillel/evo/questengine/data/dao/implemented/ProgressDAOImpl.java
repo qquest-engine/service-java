@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import ua.ithillel.evo.questengine.data.dao.ProgressDAO;
 import ua.ithillel.evo.questengine.data.entity.Progress;
 import ua.ithillel.evo.questengine.data.repository.ProgressRepository;
+import ua.ithillel.evo.questengine.exception.NotFoundException;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,8 +21,9 @@ public class ProgressDAOImpl implements ProgressDAO {
     }
 
     @Override
-    public Optional<Progress> getById(Long id) {
-        return progressRepository.findById(id);
+    public Progress getById(Long id) {
+        return progressRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("There is no Progress with id " + id));
     }
 
     @Override

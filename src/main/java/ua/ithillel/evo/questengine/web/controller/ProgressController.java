@@ -29,7 +29,7 @@ public class ProgressController {
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Optional<Progress>> getById(@PathVariable Long id) {
+    public ResponseEntity<Progress> getById(@PathVariable Long id) {
         return new ResponseEntity<>(progressService.getById(id), HttpStatus.OK);
     }
 

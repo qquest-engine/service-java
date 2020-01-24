@@ -27,7 +27,7 @@ public class HintServiceImpl implements HintService {
     }
 
     @Override
-    public Optional<Hint> getById(Long id) {
+    public Hint getById(Long id) {
         return this.hintDAO.getById(id);
     }
 

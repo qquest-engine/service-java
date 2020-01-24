@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import ua.ithillel.evo.questengine.data.dao.UserDAO;
 import ua.ithillel.evo.questengine.data.entity.AppUser;
 import ua.ithillel.evo.questengine.data.repository.AppUserRepository;
+import ua.ithillel.evo.questengine.exception.NotFoundException;
 
 import java.util.List;
 
@@ -21,17 +22,20 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public AppUser getByEmailAndPassword(String email, String password) {
-        return this.appUserRepository.findUserByEmailAndPassword(email, password).orElse(null);
+        return this.appUserRepository.findUserByEmailAndPassword(email, password)
+                .orElseThrow(() -> new NotFoundException("User not found. Wrong email or password"));
     }
 
     @Override
     public AppUser getByEmail(String email) {
-        return this.appUserRepository.findUserByEmail(email).orElse(null);
+        return this.appUserRepository.findUserByEmail(email)
+                .orElseThrow(() -> new NotFoundException("There is no User with email " + email));
     }
 
     @Override
     public AppUser getById(Long id) {
-        return this.appUserRepository.findById(id).orElse(null);
+        return this.appUserRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("There is no User with id " + id));
     }
 
     @Override

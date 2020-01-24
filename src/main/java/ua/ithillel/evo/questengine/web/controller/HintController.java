@@ -32,27 +32,20 @@ public class HintController {
 //        HintValidator.validate(hint);
         Hint hint = HintConverter.convertFromDto(hintDto);
         final Question question = questionService.getById(id);
-        if (question != null) {
-            hint.setQuestion(question);
-            hintService.save(hint);
-            return new ResponseEntity<>(HttpStatus.CREATED);
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        hint.setQuestion(question);
+        hintService.save(hint);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> edit(@PathVariable Long id, @RequestBody HintDto hintDto) {
 //        HintValidator.validate(hint);
         Hint newHint = HintConverter.convertFromDto(hintDto);
-        Optional<Hint> optionalHint = hintService.getById(id);
-        if (optionalHint.isPresent()) {
-            Hint currentHint = optionalHint.get();
-            currentHint.setDuration(newHint.getDuration());
-            currentHint.setHintText(newHint.getHintText());
-            hintService.save(currentHint);
-            return new ResponseEntity<>(HttpStatus.CREATED);
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        Hint hint = hintService.getById(id);
+        hint.setDuration(newHint.getDuration());
+        hint.setHintText(newHint.getHintText());
+        hintService.save(hint);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @DeleteMapping(value = "/{id}")

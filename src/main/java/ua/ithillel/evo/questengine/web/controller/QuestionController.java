@@ -38,15 +38,11 @@ public class QuestionController {
     public ResponseEntity<Void> updateQuestion(@Valid @RequestBody QuestionDto questionDto, @PathVariable Long id) {
         Question question = questionService.getById(id);
         Question newQuestion = QuestionConverter.convertFromDto(questionDto);
-        if (question != null) {
-            question.setText(newQuestion.getText());
-            question.setDuration(newQuestion.getDuration());
-            question.setAnswer(newQuestion.getAnswer());
-            questionService.save(question);
-            return new ResponseEntity<>(HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        question.setText(newQuestion.getText());
+        question.setDuration(newQuestion.getDuration());
+        question.setAnswer(newQuestion.getAnswer());
+        questionService.save(question);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/{id}")

@@ -26,7 +26,7 @@ public class ProgressServiceImpl implements ProgressService {
     }
 
     @Override
-    public Optional<Progress> getById(Long id) {
+    public Progress getById(Long id) {
         return progressDAO.getById(id);
     }
 

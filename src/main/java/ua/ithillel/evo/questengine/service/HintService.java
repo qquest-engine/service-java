@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface HintService {
 
-    Optional<Hint> getById(Long id);
+    Hint getById(Long id);
 
     List<Hint> getAll();
 
